@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import { Context } from "../store/appContext";
 
-const cloudinary = () => {
+export const Cloudinary = () => {
     const { actions } = useContext(Context);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -74,7 +74,6 @@ const cloudinary = () => {
                 <button type="submit" className="btn btn-primary">Sign Up</button>
             </div>
         </form>
-    )
-}
+    );
+};
 
-export default cloudinary
