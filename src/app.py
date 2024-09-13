@@ -153,7 +153,7 @@ def modified_user_info():
     user = User.query.filter_by(email=current_user_email).first()
     body = request.get_json(silent=True)
         
-    for field in ['password', 'userPhoto', 'petStar', 'breed', 'birthDate', 'hobbies']:
+    for field in ['userPhoto', 'petStar', 'breed', 'birthDate', 'hobbies']:
         if field in body:
             setattr(user, field, body[field])
         
