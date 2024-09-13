@@ -24,3 +24,4 @@ export const Home = () => {
 		</div>
 	);
 };
+
