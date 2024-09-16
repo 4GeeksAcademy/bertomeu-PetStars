@@ -24,8 +24,6 @@ export const Navbar = () => {
 								<ul className="navbar-nav mx-auto">
 									<li className="nav-item"><a className="nav-link" href="/">Home</a></li>
 									<li className="nav-item"><a className="nav-link" href="#">Foro</a></li>
-									<li className="nav-item"><a className="nav-link" href="#">Search</a></li>
-									<li className="nav-item"><a className="nav-link" href="#">Services</a></li>
 									<li className="nav-item"><a className="btn btn-primary ml-2" href="/" onClick={handleLogout}>Log out</a></li>
 								</ul>
 							</div>
@@ -43,8 +41,7 @@ export const Navbar = () => {
 										<li class="nav-item"><a class="nav-link" href="#">Home</a></li>
 										<li class="nav-item"><a class="nav-link" href="#">Foro</a></li>
 										<li class="nav-item"><a class="btn btn-warning text-white ml-2" href="#">Join PetStar Now!</a></li>
-										<li class="nav-item"><a class="nav-link" href="#">Log In</a></li>
-										<li class="nav-item"><a class="btn btn-primary ml-2" href="#">Sign Up</a></li>
+										<li class="nav-item"><a class="btn btn-primary ml-2" href="#">Log In</a></li>
 									</ul>
 								</div>
 							</div>
