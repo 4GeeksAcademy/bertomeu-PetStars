@@ -1,7 +1,8 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-function LoginPage() {
+
+function SignupPage() {
   return (
     <div className="signup-page">
       <div className="circle-1"></div>
@@ -10,9 +11,13 @@ function LoginPage() {
 
       <div className="container d-flex flex-column align-items-center mt-5">
         <div className="card p-4 shadow-sm" style={{ width: '400px', borderRadius: '12px' }}>
-          <h2 className="text-center mb-4">Log In</h2>
-          <p className="text-center text-muted">Access your account to unlock exclusive features.</p>
+          <h2 className="text-center mb-4">Sign Up</h2>
+          <p className="text-center text-muted">Create an account to unlock exclusive features.</p>
           <form>
+            <div className="mb-3">
+              <label htmlFor="petstarName" className="form-label">PetStar</label>
+              <input type="text" className="form-control" id="petstarName" placeholder="Enter your Name" />
+            </div>
             <div className="mb-3">
               <label htmlFor="email" className="form-label">Email</label>
               <input type="email" className="form-control" id="email" placeholder="Enter your Email" />
@@ -27,21 +32,16 @@ function LoginPage() {
                 I agree with <a href="/">Terms of Use</a> and <a href="/">Privacy Policy</a>
               </label>
             </div>
-            <button type="submit" className="btn btn-primary w-100">Log In</button>
+            <button type="submit" className="btn btn-primary w-100">Sign Up</button>
           </form>
           <div className="text-center mt-3">
-            <p>Don't have an account? <a href="/signup">Sign up now</a></p>
+            <p>Already have an account? <a path="/login">Log in <span>&#8594;</span></a></p>
           </div>
         </div>
       </div>
 
       {/* Community Section */}
       <div className="community-section mt-5 py-5" style={{ backgroundColor: '#FFAE80', borderRadius: '15px' }}>
-        <div className="circle-1"></div>
-        <div className="circle-2"></div>
-        <div className="circle-3"></div>
-        <div className="circle-4"></div>
-        
         <div className="container text-center">
           <h3 className="mb-4">Connect with Pet Lovers</h3>
           <p>Join a vibrant community of pet enthusiasts.</p>
@@ -83,4 +83,4 @@ function LoginPage() {
   );
 }
 
-export default LoginPage;
+export default SignupPage;
