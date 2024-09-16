@@ -21,7 +21,7 @@ body {
     background-color: #f8f8f8;
 }
 .hero-section {
-    background: url('your-image-path.jpg') center center/cover no-repeat;
+    background: center center/cover no-repeat;
     color: white;
     text-align: center;
     padding: 100px 0;
