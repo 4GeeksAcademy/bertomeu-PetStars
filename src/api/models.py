@@ -1,4 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
+from datetime import datetime, timedelta
 
 db = SQLAlchemy()
 
@@ -29,6 +30,22 @@ class User(db.Model):
             "birthDate": self.birthDate,
             "hobbies": self.hobbies,
             # do not serialize the password, its a security breach
+        }
+    
+class RestorePassword(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.String(120), unique=True, nullable=False)
+    uuid =  db.Column(db.String(120), unique=True, nullable=False)
+    expiration_date = db.Column(db.DateTime, default=datetime.utcnow()+timedelta(hours=24))  
+
+    def __repr__(self):
+        return f'<UUID for {self.email}>' 
+    
+    def serialize(self):
+        return {
+            "id": self.id,
+            "email": self.email,
+            "uuid": self.uuid,            
         }
 
 class Post(db.Model):
