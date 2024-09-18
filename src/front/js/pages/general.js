@@ -1,4 +1,6 @@
 import React from "react";
+
+
 const General = () => {
   return (
     <div className="container-fluid p-2">

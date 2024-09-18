@@ -10,7 +10,8 @@ body {
 }
 .hero-section {
 
-    background: center center/cover no-repeat;
+    background: #ffd6bf center center/cover no-repeat;
+
     color: white;
     text-align: center;
     padding: 100px 0;

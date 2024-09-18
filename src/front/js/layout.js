@@ -19,8 +19,16 @@ import ProfilePage from "./pages/ProfilePage";
 import ForumPage from './pages/forum';
 import Profiles from "./pages/profiles";
 import General from "./pages/general";
+
+import LoginPage from "./pages/login";
+import { Cloudinary } from "./pages/cloudinary";
+import RestorePassword from "./pages/restorePassword";
+
+
+
 import Profile from "./pages/profile";
 import { ProfilePage } from "./pages/ProfilePage";
+
 
 //create your first component
 const Layout = () => {
@@ -41,12 +49,17 @@ const Layout = () => {
                         <Route element={<Home />} path="/home" />
                         <Route element={<General />} path="/general" />
                         <Route element={<LoginPage />} path="/login" />
+
+                        <Route element={<Cloudinary />} path="/cloudinary" />
+                        <Route element={<RestorePassword />} path="/restorePassword/:uuid" />
+
                         <Route element={<SignupPage />} path="/signup" />
                         <Route element={<ProfilePage />} path="/yourprofile" />
                         <Route element={<ForumPage />} path="/forum" />
                         <Route element={<Profiles />} path="/profiles" />
                         <Route element={<Profile />} path="/profile" />
                         <Route element={<ProfilePage />} path="/profilepage" />
+
                         <Route element={<Single />} path="/single/:theid" />
                         <Route element={<h1>Not found!</h1>} path="*" />
                     </Routes>

@@ -14,7 +14,16 @@ const getState = ({ getStore, getActions, setStore }) => {
 		},
 		actions: {
 			// Use getActions to call a function within a fuction
-			register: async (email, password, petStar, userPhoto, breed, birthDate, hobbies) => {
+			register: async (email, password, confirmPassword, petStar, userPhoto, breed, birthDate, hobbies) => {
+				if (password !== confirmPassword) {
+					Swal.fire({
+						icon: "error",
+						title: "Password do not match",
+						showConfirmButton: false,
+						timer: 2000
+					});
+					return;
+				}
 				try {
 					const response = await fetch(`${apiEndpoint}/api/register`, {
 						method: 'POST',
@@ -45,6 +54,130 @@ const getState = ({ getStore, getActions, setStore }) => {
 					});
 				}
 			},
+			sendRestorePassword: async (email) => {
+				try {
+				  const response = await fetch(`${apiEndpoint}/api/restorePassword`, {
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify({ email })
+				  });
+			  
+				  const data = await response.json();
+				  if (data.msg === 'UUID generated successfully') {
+					Swal.fire({
+					  icon: "success",
+					  title: "Email sent",
+					  showConfirmButton: false,
+					  timer: 2000
+					});
+				  } else {
+					throw new Error('Email not found');
+				  }
+				} catch (error) {
+				  console.error(error);
+				  Swal.fire({
+					icon: "error",
+					title: error.message,
+					showConfirmButton: false,
+					timer: 2000
+				  });
+				}
+			},
+			addRestorePassword: async (uuid, restorePassword, confirmRestorePassword) => {
+				if (restorePassword !== confirmRestorePassword) {
+					Swal.fire({
+						icon: "error",
+						title: "New password do not match",
+						showConfirmButton: false,
+						timer: 2000
+					});
+					return;
+				}
+				try {
+					const response = await fetch(`${apiEndpoint}/api/restorePassword`, {
+					  method: 'PUT',
+					  headers: { 'Content-Type': 'application/json' },
+					  body: JSON.stringify({ uuid: uuid, password: restorePassword })
+					});
+				
+					const data = await response.json();
+					if (data.msg === 'Password changed successfully') {
+					  Swal.fire({
+						icon: "success",
+						title: "Password changed successfully",
+						showConfirmButton: false,
+						timer: 2000
+					  });
+					} else {
+					  throw new Error('Link expired');
+					}
+				  } catch (error) {
+					console.error(error);
+					Swal.fire({
+					  icon: "error",
+					  title: error.message,
+					  showConfirmButton: false,
+					  timer: 2000
+					});
+				  }
+			},
+			changePassword: async (oldPassword, newPassword, confirmNewPassword) => {
+				const token = localStorage.getItem('token');
+				if (token) {
+					if (oldPassword !== newPassword) {
+						Swal.fire({
+							icon: "error",
+							title: "New password must be different from old password",
+							showConfirmButton: false,
+							timer: 2000
+						});
+						return;
+					}
+					if (newPassword !== confirmNewPassword) {
+						Swal.fire({
+							icon: "error",
+							title: "New password do not match",
+							showConfirmButton: false,
+							timer: 2000
+						});
+						return;
+					}
+					try {
+						const response = await fetch(`${apiEndpoint}/api/changePassword`, {
+							method: 'GET',
+							headers: {
+								'Content-Type': 'application/json',
+								'Authorization': `Bearer ${token}`
+							},
+							body: JSON.stringify({ password: newPassword })
+						});
+						
+						const data = await response.json();
+						if (data.msg === 'Invalid old password') {
+							throw new Error('Invalid old password');
+	
+						} else {
+						setStore({ user: data });
+						}
+					} catch (error) {
+						console.error(error);
+						Swal.fire({
+							icon: "error",
+							title: error,
+							showConfirmButton: false,
+							timer: 2000
+						});
+					}
+				} else {
+					Swal.fire({
+						icon: "error",
+						title: "You must log in to access this information",
+						showConfirmButton: false,
+						timer: 2000
+					});
+				}			
+			},
+
 			login: async (email, password) => {
 				try {
 					const response = await fetch(`${apiEndpoint}/api/login`, {
@@ -111,7 +244,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 							timer: 2000
 						});
 					}
-				} else {					
+				} else {
 					Swal.fire({
 						icon: "error",
 						title: "You must log in to access this information",
@@ -537,7 +670,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 
 			},
-			
+
 		}
 	};
 };
