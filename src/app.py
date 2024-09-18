@@ -6,7 +6,7 @@ from flask import Flask, request, jsonify, url_for, send_from_directory
 from flask_migrate import Migrate
 from flask_swagger import swagger
 from api.utils import APIException, generate_sitemap
-from api.models import db, User, Post, CommentPost, ForumTopic, TopicResponse
+from api.models import db, User, Post, CommentPost, ForumTopic, TopicResponse, RestorePassword
 from api.routes import api
 from api.admin import setup_admin
 from api.commands import setup_commands
@@ -18,7 +18,11 @@ from flask_jwt_extended import JWTManager
 
 from flask_bcrypt import Bcrypt
 from flask_cors import CORS
-from datetime import timedelta
+from datetime import datetime, timedelta
+
+from flask_mail import Mail, Message
+
+import uuid
 
 # from models import Person
 
@@ -30,12 +34,24 @@ app = Flask(__name__)
 CORS(app)
 app.url_map.strict_slashes = False
 
+# Configuracion Flask Mail
+app.config.update(dict(
+    DEBUG =False,
+    MAIL_SERVER = 'smtp.gmail.com',
+    MAIL_PORT = 587,
+    MAIL_USE_TLS = True,
+    MAIL_USE_SSL = False,
+    MAIL_USERNAME = os.getenv("MAIL_USERNAME"),
+    MAIL_PASSWORD = os.getenv("MAIL_PASSWORD")
+))
+mail = Mail(app)
+
 #Setup de JWT
 app.config["JWT_SECRET_KEY"] = os.getenv("JWT-KEY")  # Change this!
 app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(minutes=30)
 jwt = JWTManager(app)
 
-#Setuo Bcrypt
+#Setup Bcrypt
 bcrypt = Bcrypt(app)
 
 # database condiguration
@@ -99,10 +115,10 @@ def register():
     pw_hash = bcrypt.generate_password_hash(body['password']).decode('utf-8')
     new_user = User()    
     new_user.email = body['email']
-    new_user.password = pw_hash
+    new_user.password = pw_hash 
     new_user.petStar = body['petStar']
     if 'userPhoto' in body:
-        new_user.userPhoto = body['userPhoto']   
+        new_user.userPhoto = body['userPhoto']    
     if 'breed' in body:
         new_user.breed = body['breed']
     if 'birthDate' in body:
@@ -111,7 +127,124 @@ def register():
         new_user.hobbies = body['hobbies']
     db.session.add(new_user)
     db.session.commit()
+
+    #respuesta y envio de email
+    html = '''
+    <html>
+      <head>
+        <title>Welcome to PetStar!</title>
+      </head>
+      <body>
+        <h1>Welcome to PetStar!</h1>
+        <p>Dear <strong>{petStar}</strong>,</p>
+        <h2>Congratulations on joining PetStar!</h2>
+        <p>We are thrilled to have you on board! As a member of our community, you'll be able to connect with fellow pet lovers, share your pet's adventures, and discover new friends.</p>
+        
+        <p><strong>About PetStar</strong></p>
+        <p>PetStar is a social network dedicated to pet owners and enthusiasts. Our mission is to provide a fun and engaging platform for you to share your pet's stories, photos, and videos.</p>
+        
+        
+        <a href="#"><img src="https://res.cloudinary.com/dyvut6idr/image/upload/v1725640842/Logo_PetStar-removebg-preview_oo91wx.png" alt="PetStar Logo" height="60"></a>
+        <p>Best regards,</p>
+        <p>The PetStar Team</p>
+        
+      </body>
+    </html>
+    '''.format(petStar=body['petStar'])
+
+    msg = Message('Welcome to Our App!',
+                  sender=app.config['MAIL_USERNAME'],
+                  recipients=[body['email']])
+    msg.html = html
+    mail.send(msg)        
+
     return jsonify({'msg': 'New user created'}), 201
+
+@app.route("/api/changePassword", methods=["PUT"])
+@jwt_required()
+def change_password():
+    current_user_email = get_jwt_identity()
+    user = User.query.filter_by(email=current_user_email).first()
+
+    body = request.get_json(silent=True)
+    if not body or 'old_password' not in body or 'new_password' not in body:
+        return jsonify({'msg': 'Old password and new password fields are required'}), 400
+
+    if not bcrypt.check_password_hash(user.password, body['old_password']):
+        return jsonify({'msg': 'Invalid old password'}), 401
+
+    new_password_hash = bcrypt.generate_password_hash(body['new_password']).decode('utf-8')
+    user.password = new_password_hash
+    db.session.commit()
+
+    return jsonify({'msg': 'Password changed successfully'}), 200
+
+@app.route("/api/restorePassword", methods=["POST"])
+def send_restore_password():
+    body = request.get_json(silent=True)
+    if not body or 'email' not in body:
+        return jsonify({'msg': 'Email is a required field'}), 400
+    email = body['email']
+    user = User.query.filter_by(email=email).first()
+    if user:        
+        restore_password = RestorePassword(email=email, uuid=uuid.uuid4())
+        db.session.add(restore_password)
+        db.session.commit()
+
+           # Send email with reset password link
+        html = '''
+        <html>
+          <head>
+            <title>Reset Password</title>
+          </head>
+          <body>            
+            <h1>Dear <strong>{email}</strong>,</h1>
+
+            <p>Please click on the following link to reset your password:</p>
+            <p>      
+            <a href="https://upgraded-succotash-q7x4gxqqrjx3xxwr-3000.app.github.dev/restorePassword/{uuid}">Reset Password</a>
+            </p>
+            <a href="#"><img src="https://res.cloudinary.com/dyvut6idr/image/upload/v1725640842/Logo_PetStar-removebg-preview_oo91wx.png" alt="PetStar Logo" height="60"></a>
+            <p>Best regards,</p>
+            <p>The PetStar Team</p>
+          </body>
+        </html>
+        '''.format(email=email, uuid=restore_password.uuid)
+        
+        msg = Message('Reset Password',
+                      sender=app.config['MAIL_USERNAME'],
+                      recipients=[email])
+        msg.html = html
+        mail.send(msg)
+
+        return jsonify({'msg': 'UUID generated successfully'}), 200
+    else:
+        return jsonify({'msg': 'User not found'}), 404
+
+@app.route("/api/restorePassword", methods=["PUT"])
+def add_restore_password():
+    body = request.get_json(silent=True)
+    if not body:
+       return jsonify({'msg': 'All fields are required'}), 400
+    uuid = body['uuid']
+    restore_password = RestorePassword.query.filter_by(uuid=uuid).first()
+    if restore_password is None:
+        return jsonify({'msg': 'UUID not found'}), 404
+    
+    if datetime.utcnow() > restore_password.expiration_date:
+        return jsonify({'msg': 'Link expired'}), 400
+
+    user = User.query.filter_by(email=restore_password.email).first()
+    if user is None:
+        return jsonify({'msg': 'User not found'}), 404
+
+    new_password_hash = bcrypt.generate_password_hash(body['password']).decode('utf-8')
+    user.password = new_password_hash
+    db.session.commit()
+
+       
+    return jsonify({'msg': 'Password changed successfully'}), 200  
+ 
 
 @app.route("/api/login", methods=["POST"])
 def login():
