@@ -10,7 +10,6 @@ export const Home = () => {
 		<div className="text-center mt-5">
 			<div class="hero-section">
 				<h1>Connect with Pet Lovers</h1>
-				<img src="https://res.cloudinary.com/dyvut6idr/image/upload/v1725641293/bulldog-1047517_1280_azk18r.jpg" class="imagen-galeria"/>
 					<div class="d-grid gap-2 col-6 mx-auto">
 						<button type="button" class="btn btn-light col-6 mx-auto">Start Your Journey</button>
 					</div>

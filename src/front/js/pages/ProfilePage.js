@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import { Button, Card, Container, Row, Col, Form } from 'react-bootstrap';
+// import 'bootstrap/dist/css/bootstrap.min.css';
+// import { Button, Card, Container, Row, Col, Form } from 'react-bootstrap';
 
 
-function App() {
+export const ProfilePage = () => {
   const [posts, setPosts] = useState([
     {
       id: 1,
@@ -134,6 +134,6 @@ function App() {
       </Row>
     </Container>
   );
-}
+};
 
-export default App;
+

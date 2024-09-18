@@ -1,5 +1,5 @@
 import React from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 function LoginPage() {
   return (
@@ -7,6 +7,7 @@ function LoginPage() {
       <div className="circle-1"></div>
       <div className="circle-2"></div>
       <div className="circle-3"></div>
+      
 
       <div className="container d-flex flex-column align-items-center mt-5">
         <div className="card p-4 shadow-sm" style={{ width: '400px', borderRadius: '12px' }}>

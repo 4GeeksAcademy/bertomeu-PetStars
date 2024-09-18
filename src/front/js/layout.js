@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import ScrollToTop from "./component/scrollToTop";
 import { BackendURL } from "./component/backendURL";
 
+
 import { Home } from "./pages/home";
 import { Demo } from "./pages/demo";
 import { Single } from "./pages/single";
@@ -13,6 +14,7 @@ import { Footer } from "./component/footer";
 import General from "./pages/general";
 import LoginPage from "./pages/login";
 import Profile from "./pages/profile";
+import { ProfilePage } from "./pages/ProfilePage";
 
 
 
@@ -31,10 +33,11 @@ const Layout = () => {
                 <ScrollToTop>
                     <Navbar />
                     <Routes>
-                        <Route element={<Home />} path="/" />
+                        <Route element={<Home />} path="/home" />
                         <Route element={<General />} path="/general" />
                         <Route element={<LoginPage />} path="/login" />
                         <Route element={<Profile />} path="/profile" />
+                        <Route element={<ProfilePage />} path="/profilepage" />
                         <Route element={<Single />} path="/single/:theid" />
                         <Route element={<h1>Not found!</h1>} />
                     </Routes>

@@ -5,12 +5,12 @@ const Profile = () => {
    
     <div className="card mb-3">
       <div className="cover-photo-container">
-        <img src="https://res.cloudinary.com/dyvut6idr/image/upload/v1725641292/couple-5267726_1280_rtcucc.jpg" className="img-fluid cover-photo" alt="Cover Photo" />
+        <img src="https://i.pinimg.com/originals/0e/bc/2c/0ebc2c42c70e2ae539a35f1e92b55055.jpg" className="img-fluid cover-photo" alt="Cover Photo" />
         <div className="profile-picture-container">
-          <img src="https://res.cloudinary.com/dyvut6idr/image/upload/v1725641292/dog-7174266_1280_jqdyom.jpg" className="rounded-circle profile-picture" alt="Profile Picture" />
+          <img src="https://i.pinimg.com/originals/54/5d/e7/545de77b56bfcea4d59de3a4b403679b.jpg" className="rounded-circle profile-picture" alt="Profile Picture" />
         </div>
         <h3 className="text-center mt-4">Roko</h3>
-        <div className="text-center">
+        <div className="d-flex justify-content-end">
           <button className="btn btn-secondary me-2">Edit Cover Photo</button>
           <button className="btn btn-primary">Add Post</button>
         </div>
@@ -35,7 +35,7 @@ const Profile = () => {
         <div className="card mb-3">
           <div className="card-body">
             <div className="d-flex align-items-center">
-              <img src="https://res.cloudinary.com/dyvut6idr/image/upload/v1725641292/dog-5883275_1280_xcefwt.jpg" className="rounded-circle me-3" width="50" alt="Roko" />
+              <img src="https://i.pinimg.com/originals/54/5d/e7/545de77b56bfcea4d59de3a4b403679b.jpg" className="rounded-circle profile-picture" width="50" alt="Roko" />
               <div>
                 <h6 className="mb-0">Roko</h6>
                 <small>5 mins ago</small>
@@ -61,7 +61,7 @@ const Profile = () => {
         <div className="card mb-3">
           <div className="card-body">
             <div className="d-flex align-items-center">
-              <img src="https://res.cloudinary.com/dyvut6idr/image/upload/v1725641292/pets-3715734_1280_zut83f.jpg" className="rounded-circle me-3" width="50" alt="Roko" />
+              <img src="https://i.pinimg.com/originals/54/5d/e7/545de77b56bfcea4d59de3a4b403679b.jpg" className="rounded-circle profile-picture" width="50" alt="Roko" />
               <div>
                 <h6 className="mb-0">Roko</h6>
                 <small>20 mins ago</small>
