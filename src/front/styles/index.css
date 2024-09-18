@@ -1,74 +1,239 @@
-/* 
-    General Styles used on every website (Don't Repeat Yourself)
-*/
-
+/* General Styles used on every website (Don't Repeat Yourself) */
 body {
-    background-color: #fcd6bd;
-  }
-  
-  .cover-photo-container {
-    position: relative;
-  }
-  
-  .cover-photo {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-  }
-  
-  .profile-picture-container {
-    position: absolute;
-    bottom: 40px;
-    transform: translateX(50%);
-  }
-  
-  .profile-picture {
-    width: 80px;
-    height: 80px;
-    object-fit: cover;
-    border: 3px solid white;
-  }
-  
-  .profile-info {
-    background-color: white;
-    border-radius: 10px;
-  }
-  
-  .profile-info h5 {
-    font-size: 1.2rem;
-    font-weight: bold;
-    margin-bottom: 1rem;
-  }
-  
-  .profile-info p {
-    font-size: 0.9rem;
-  }
-  
-  .card {
-    border-radius: 10px;
-    background-color: white;
-  }
-  
-  .card-body img {
-    border-radius: 10px;
-  }
-  
-  .card-body p {
-    margin-top: 1rem;
-    font-size: 0.95rem;
-  }
-  
-  .btn-link {
-    font-size: 0.85rem;
-    padding: 0;
-  }
-  
-  .bi-heart,
-  .bi-chat {
-    font-size: 1.1rem;
-  }
-  
-  .bi-three-dots {
-    font-size: 1.25rem;
-  }
-  
+  background-color: #fcd6bd;
+}
+
+.signup-page {
+  background-color: #FDEAE5;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.card {
+  background-color: #FFAE80;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.1); 
+}
+
+h2, h3 {
+  font-family: 'Arial', sans-serif;
+  font-weight: bold;
+}
+
+.btn-primary {
+  background-color: #FF6B35;
+  border: none;
+}
+
+.btn-primary:hover {
+  background-color: #FF4A00;
+}
+
+
+.profile-page {
+  background-color: #ffe3d7;
+  min-height: 100vh;
+}
+
+.profile-banner {
+  background-color: #fff;
+  border-bottom: 2px solid #ffa370;
+}
+
+.profile-pic {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+}
+
+.profile-name {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.profile-bio {
+  color: #888;
+}
+
+.posts-list .post-card {
+  background-color: #fff;
+  border: 1px solid #ffa370;
+  border-radius: 10px;
+}
+
+.posts-list .post-card .card-title {
+  color: #333;
+}
+
+.posts-list .post-card .card-text {
+  color: #555;
+}
+
+.plus-logo {
+  width: 50px;
+  height: 50px;
+}
+
+.uploaded-image {
+  max-width: 100%;
+  height: auto;
+  margin-top: 10px;
+}
+
+.rounded-circle {
+  object-fit: cover;
+}
+
+.card-body {
+  font-family: 'Arial', sans-serif;
+}
+
+.card-header strong {
+  font-size: 18px;
+}
+
+textarea {
+  resize: none;
+}
+
+
+.community-section {
+  background-color: #FFAE80;
+  border-radius: 15px;
+  position: relative;
+  overflow: hidden;
+  padding-left: 65px;
+  padding: 50px 0; 
+}
+
+.community-section::before,
+.community-section::after,
+.circle-1,
+.circle-2,
+.circle-3,
+.circle-4 {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  z-index: 0;
+  box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2); 
+}
+
+.community-section::before {
+  width: 200px;
+  height: 200px;
+  background-color: #FFA07A;
+  top: -50px;
+  left: -50px;
+}
+
+.community-section::after {
+  width: 150px;
+  height: 150px;
+  background-color: #FF8C00;
+  bottom: -40px;
+  right: -40px;
+}
+
+.circle-1 {
+  width: 120px;
+  height: 120px;
+  background-color: #FFD700;
+  top: 100px;
+  left: -30px;
+}
+
+.circle-2 {
+  width: 100px;
+  height: 100px;
+  background-color: #FF7F50;
+  bottom: 120px;
+  right: 100px;
+}
+
+.circle-3 {
+  width: 80px;
+  height: 80px;
+  background-color: #FF4500;
+  top: 180px;
+  right: 20px;
+}
+
+.circle-4 {
+  width: 60px;
+  height: 60px;
+  background-color: #FF6347;
+  bottom: 60px;
+  left: 30px;
+}
+
+.container {
+  position: relative;
+  z-index: 1;
+}
+
+
+.cover-photo-container {
+  position: relative;
+}
+
+.cover-photo {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.profile-picture-container {
+  position: absolute;
+  bottom: 40px;
+  transform: translateX(50%);
+}
+
+.profile-picture {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border: 3px solid white;
+}
+
+.profile-info {
+  background-color: white;
+  border-radius: 10px;
+}
+
+.profile-info h5 {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.profile-info p {
+  font-size: 0.9rem;
+}
+
+.card-body img {
+  border-radius: 10px;
+}
+
+.card-body p {
+  margin-top: 1rem;
+  font-size: 0.95rem;
+}
+
+.btn-link {
+  font-size: 0.85rem;
+  padding: 0;
+}
+
+.bi-heart,
+.bi-chat {
+  font-size: 1.1rem;
+}
+
+.bi-three-dots {
+  font-size: 1.25rem;
+}

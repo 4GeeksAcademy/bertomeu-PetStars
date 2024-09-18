@@ -27,7 +27,7 @@ function LoginPage() {
                 I agree with <a href="/">Terms of Use</a> and <a href="/">Privacy Policy</a>
               </label>
             </div>
-            <button type="submit" className="btn btn-primary w-100">Log In</button>
+            <button type="submit" className="btn w-100" style={{ backgroundColor: '#FF8D4C', borderColor: '#FF8D4C' }}>Log In</button>
           </form>
           <div className="text-center mt-3">
             <p>Don't have an account? <a href="/signup">Sign up now</a></p>
@@ -35,13 +35,13 @@ function LoginPage() {
         </div>
       </div>
 
-      {/* Community Section */}
+
       <div className="community-section mt-5 py-5" style={{ backgroundColor: '#FFAE80', borderRadius: '15px' }}>
         <div className="circle-1"></div>
         <div className="circle-2"></div>
         <div className="circle-3"></div>
         <div className="circle-4"></div>
-        
+
         <div className="container text-center">
           <h3 className="mb-4">Connect with Pet Lovers</h3>
           <p>Join a vibrant community of pet enthusiasts.</p>
