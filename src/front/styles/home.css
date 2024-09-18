@@ -1,16 +1,4 @@
-/*
-    home.css: This website contains selectors only used in home.css
 
-    All pages share the styles on index.css but you should create 
-    one more css for each page that will contain the selected used 
-    on that page only (the ones not reused in other pages).
-*//*
-    home.css: This website contains selectors only used in home.css
-
-    All pages share the styles on index.css but you should create 
-    one more css for each page that will contain the selected used 
-    on that page only (the ones not reused in other pages).
-*/
 body {
     font-family: 'Arial', sans-serif;
     background-color: #f9f3ec;
@@ -21,6 +9,7 @@ body {
     background-color: #f8f8f8;
 }
 .hero-section {
+
     background: center center/cover no-repeat;
     color: white;
     text-align: center;
@@ -38,7 +27,7 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Overlay effect */
+    background-color: rgba(0, 0, 0, 0.5); 
     z-index: -1;
 }
 .gallery-section {

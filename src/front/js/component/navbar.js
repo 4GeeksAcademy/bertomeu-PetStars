@@ -11,6 +11,7 @@ export const Navbar = () => {
 	};
 
 	return (
+		
 		<div >
 			{
 				store.user ?
@@ -49,6 +50,5 @@ export const Navbar = () => {
 					</>
 			}
 		</div>
-
 	);
 };
