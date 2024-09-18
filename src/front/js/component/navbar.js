@@ -11,6 +11,7 @@ export const Navbar = () => {
 	};
 
 	return (
+		
 		<div >
 			{
 				store.user ?
@@ -24,9 +25,11 @@ export const Navbar = () => {
 								<ul className="navbar-nav mx-auto">
 									<li className="nav-item"><a className="nav-link" href="/">Home</a></li>
 									<li className="nav-item"><a className="nav-link" href="#">Foro</a></li>
-									<li className="nav-item"><a className="nav-link" href="#">Search</a></li>
-									<li className="nav-item"><a className="nav-link" href="#">Services</a></li>
-									<li className="nav-item"><a className="btn btn-primary ml-2" href="/" onClick={handleLogout}>Log out</a></li>
+									<li className="nav-item"><a className="btn btn-primary ms-2" href="/" onClick={handleLogout}>Log out</a></li>
+									<div className="profile-picture-container">
+										<img src="https://res.cloudinary.com/dyvut6idr/image/upload/v1725641292/dog-7174266_1280_jqdyom.jpg" className="rounded-circle profile-picture" alt="Profile Picture" />
+									</div>
+									<h3 className="text-center mt-4">Roko</h3>
 								</ul>
 							</div>
 						</div>
@@ -39,12 +42,13 @@ export const Navbar = () => {
 									<span class="navbar-toggler-icon"></span>
 								</button>
 								<div class="collapse navbar-collapse" id="navbarNav">
-									<ul class="navbar-nav ml-auto">
+									<ul class="navbar-nav ms-auto">
 										<li class="nav-item"><a class="nav-link" href="#">Home</a></li>
 										<li class="nav-item"><a class="nav-link" href="#">Foro</a></li>
-										<li class="nav-item"><a class="btn btn-warning text-white ml-2" href="#">Join PetStar Now!</a></li>
-										<li class="nav-item"><a class="nav-link" href="#">Log In</a></li>
-										<li class="nav-item"><a class="btn btn-primary ml-2" href="#">Sign Up</a></li>
+										<div class="sticky-bottom d-flex justify-content-end">
+										    <li class="nav-item"><a class="btn btn-warning text-white ms-2" href="#">Join PetStar Now!</a></li>
+											<li class="nav-item"><a class="btn btn-primary ms-2" href="#">Log In</a></li>
+										</div>
 									</ul>
 								</div>
 							</div>
@@ -52,6 +56,5 @@ export const Navbar = () => {
 					</>
 			}
 		</div>
-
 	);
 };

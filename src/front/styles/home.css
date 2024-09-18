@@ -1,16 +1,4 @@
-/*
-    home.css: This website contains selectors only used in home.css
 
-    All pages share the styles on index.css but you should create 
-    one more css for each page that will contain the selected used 
-    on that page only (the ones not reused in other pages).
-*//*
-    home.css: This website contains selectors only used in home.css
-
-    All pages share the styles on index.css but you should create 
-    one more css for each page that will contain the selected used 
-    on that page only (the ones not reused in other pages).
-*/
 body {
     font-family: 'Arial', sans-serif;
     background-color: #f9f3ec;
@@ -21,7 +9,9 @@ body {
     background-color: #f8f8f8;
 }
 .hero-section {
+
     background: #ffd6bf center center/cover no-repeat;
+
     color: white;
     text-align: center;
     padding: 100px 0;
@@ -38,7 +28,13 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Overlay effect */
+
+    background-image: url('https://i.pinimg.com/originals/7e/91/c3/7e91c310f1f010ac48d5d9f3fda0bdae.jpg');
+    background-size:  1300px 400px; 
+    background-position: center; 
+
+    background-color: rgba(0, 0, 0, 0.5); 
+
     z-index: -1;
 }
 .gallery-section {
@@ -69,8 +65,8 @@ body {
     text-align: center;
 }
 .footer {
-    background-color: #343a40;
-    color: white;
+    background-color: #FFD6BF ;
+    color: black;
     padding: 20px 0;
     text-align: center;
 }
