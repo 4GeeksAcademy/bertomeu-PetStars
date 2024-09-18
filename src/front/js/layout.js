@@ -11,6 +11,9 @@ import injectContext from "./store/appContext";
 import { Navbar } from "./component/navbar";
 import { Footer } from "./component/footer";
 import General from "./pages/general";
+import LoginPage from "./pages/login";
+import { Cloudinary } from "./pages/cloudinary";
+import RestorePassword from "./pages/restorePassword";
 
 
 
@@ -30,6 +33,9 @@ const Layout = () => {
                     <Routes>
                         <Route element={<Home />} path="/" />
                         <Route element={<General />} path="/general" />
+                        <Route element={<LoginPage />} path="/login" />
+                        <Route element={<Cloudinary />} path="/cloudinary" />
+                        <Route element={<RestorePassword />} path="/restorePassword/:uuid" />
                         <Route element={<Single />} path="/single/:theid" />
                         <Route element={<h1>Not found!</h1>} />
                     </Routes>
