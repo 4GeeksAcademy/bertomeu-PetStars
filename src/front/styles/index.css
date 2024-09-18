@@ -1,3 +1,318 @@
-/* 
-    General Styles used on every website (Don't Repeat Yourself)
-*/
+/* General Styles used on every website (Don't Repeat Yourself) */
+.signup-page {
+  background-color: #FDEAE5;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.card {
+  background-color: #FFAE80;
+  border-radius: 12px;
+}
+
+
+h2,
+h3 {
+  font-family: 'Arial', sans-serif;
+  font-weight: bold;
+}
+
+.btn-primary {
+  background-color: #FF6B35;
+  border: none;
+}
+
+.btn-primary:hover {
+  background-color: #FF4A00;
+}
+
+.profile-page {
+  background-color: #ffe3d7;
+  min-height: 100vh;
+}
+
+.profile-banner {
+  background-color: #fff;
+  border-bottom: 2px solid #ffa370;
+}
+
+.profile-pic {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+}
+
+.profile-name {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.profile-bio {
+  color: #888;
+}
+
+.posts-list .post-card {
+  background-color: #fff;
+  border: 1px solid #ffa370;
+  border-radius: 10px;
+}
+
+.posts-list .post-card .card-title {
+  color: #333;
+}
+
+.posts-list .post-card .card-text {
+  color: #555;
+}
+
+.plus-logo {
+  width: 50px;
+  height: 50px;
+}
+
+.uploaded-image {
+  max-width: 100%;
+  height: auto;
+  margin-top: 10px;
+}
+
+body {
+  background-color: #FADCD9;
+}
+
+h2 {
+  color: #ffffff;
+}
+
+.rounded-circle {
+  object-fit: cover;
+}
+
+.card-body {
+  font-family: 'Arial', sans-serif;
+}
+
+.card-header strong {
+  font-size: 18px;
+}
+
+textarea {
+  resize: none;
+}
+.community-section {
+  background-color: #FFAE80;
+  border-radius: 15px;
+  position: relative;
+  overflow: hidden; 
+  padding-left: 65px;
+}
+
+.community-section::before,
+.community-section::after,
+.circle-1,
+.circle-2,
+.circle-3,
+.circle-4 {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  z-index: 0;
+  box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2); 
+}
+
+.community-section::before {
+  width: 200px;
+  height: 200px;
+  background-color: #FFA07A; 
+  top: -50px;
+  left: -50px;
+}
+
+.community-section::after {
+  width: 150px;
+  height: 150px;
+  background-color: #FF8C00; 
+  bottom: -40px;
+  right: -40px;
+}
+
+.circle-1 {
+  width: 120px;
+  height: 120px;
+  background-color: #FFD700;
+  top: 100px;
+  left: -30px;
+}
+
+.circle-2 {
+  width: 100px;
+  height: 100px;
+  background-color: #FF7F50; 
+  bottom: 120px;
+  right: 100px;
+}
+
+.circle-3 {
+  width: 80px;
+  height: 80px;
+  background-color: #FF4500; 
+  top: 180px;
+  right: 20px;
+}
+
+.circle-4 {
+  width: 60px;
+  height: 60px;
+  background-color: #FF6347; 
+  bottom: 60px;
+  left: 30px;
+}
+
+.container {
+  position: relative;
+  z-index: 1; 
+.signup-page {
+  position: relative;
+  background-color: #fff; 
+  border-radius: 15px; 
+  overflow: hidden;
+  padding: 50px 0;
+}
+
+.signup-page::before,
+.signup-page::after,
+.circle-1,
+.circle-2,
+.circle-3 {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  z-index: 0;
+  box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.1); /* Light gray shadow for circles */
+}
+
+.signup-page::before {
+  width: 180px;
+  height: 180px;
+  background-color: #FFA07A; /* Lighter orange */
+  top: -50px;
+  left: -50px;
+}
+
+.signup-page::after {
+  width: 150px;
+  height: 150px;
+  background-color: #FF8C00; /* Darker orange */
+  bottom: -40px;
+  right: -40px;
+}
+
+.circle-1 {
+  width: 100px;
+  height: 100px;
+  background-color: #FFD700; /* Golden orange */
+  top: 60px;}
+  left: -30px;
+}
+
+.circle-2 {
+  width: 90px;
+  height: 90px;
+  background-color: #FF7F50; /* Coral orange */
+  bottom: 100px;
+  right: 80px;
+}
+
+.circle-3 {
+  width: 60px;
+  height: 60px;
+  background-color: #FF6347; /* Tomato orange */
+  top: 160px;
+  right: 20px;
+}
+
+.container {
+  position: relative;
+  z-index: 1; /* Keeps content above the circles */
+}
+
+.card {
+  background-color: #fff; /* White card background */
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.1); /* Soft shadow for the card */
+}
+.signup-page {
+  position: relative;
+  background-color: #FFD6BF;
+  border-radius: 15px;
+  overflow: hidden;
+  padding: 50px 0;
+}
+
+.signup-page::before,
+.signup-page::after,
+.circle-1,
+.circle-2,
+.circle-3 {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  z-index: 0;
+  box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.signup-page::before {
+  width: 180px;
+  height: 180px;
+  background-color: #FFA07A;
+  top: -50px;
+  left: -50px;
+}
+
+.signup-page::after {
+  width: 150px;
+  height: 150px;
+  background-color: #FF8C00;
+  bottom: -40px;
+  right: -40px;
+}
+
+.circle-1 {
+  width: 100px;
+  height: 100px;
+  background-color: #FFD700;
+  top: 60px;
+  left: -30px;
+}
+
+.circle-2 {
+  width: 90px;
+  height: 90px;
+  background-color: #FF7F50;
+  bottom: 100px;
+  right: 80px;
+}
+
+.circle-3 {
+  width: 60px;
+  height: 60px;
+  background-color: #FF6347;
+  top: 160px;
+  right: 20px;
+}
+
+.container {
+  position: relative;
+  z-index: 1;
+}
+
+.card {
+  background-color: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.1);
+}
