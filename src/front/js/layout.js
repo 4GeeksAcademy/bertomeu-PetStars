@@ -48,7 +48,7 @@ const Layout = () => {
                         <Route element={<ProfilePage />} path="/yourprofile" />
                         <Route element={<ForumPage />} path="/forum" />
                         
-                        <Route element={<Profile />} path="/profile" />
+                        
                         <Route element={<ProfilePage />} path="/profilepage" />
                         <Route element={<Single />} path="/single/:theid" />
                         <Route element={<h1>Not found!</h1>} path="*" />
