@@ -1,7 +1,49 @@
-import React from 'react';
+import React, { useState, useContext } from 'react';
+import Swal from 'sweetalert2';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { Context } from '../store/appContext'; 
 
 function LoginPage() {
+  const { actions } = useContext(Context);
+
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!email || !password) {
+      Swal.fire({
+        icon: "error",
+        title: "Please fill in all fields",
+        showConfirmButton: false,
+        timer: 2000
+      });
+      return;
+    }
+
+    try {
+    
+      await actions.login(email, password);
+      Swal.fire({
+        icon: "success",
+        title: "Login successful!",
+        showConfirmButton: false,
+        timer: 2000
+      });
+      
+      window.location.href = "/"; 
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Login failed",
+        text: error.message,
+        showConfirmButton: false,
+        timer: 2000
+      });
+    }
+  };
+
   return (
     <div className="signup-page">
       <div className="circle-1"></div>
@@ -12,14 +54,30 @@ function LoginPage() {
         <div className="card p-4 shadow-sm" style={{ width: '400px', borderRadius: '12px' }}>
           <h2 className="text-center mb-4">Log In</h2>
           <p className="text-center text-muted">Access your account to unlock exclusive features.</p>
-          <form>
+          <form onSubmit={handleSubmit}>
             <div className="mb-3">
               <label htmlFor="email" className="form-label">Email</label>
-              <input type="email" className="form-control" id="email" placeholder="Enter your Email" />
+              <input 
+                type="email" 
+                className="form-control" 
+                id="email" 
+                placeholder="Enter your Email" 
+                value={email}
+                onChange={(e) => setEmail(e.target.value)} 
+                required
+              />
             </div>
             <div className="mb-3">
               <label htmlFor="password" className="form-label">Password</label>
-              <input type="password" className="form-control" id="password" placeholder="Enter your Password" />
+              <input 
+                type="password" 
+                className="form-control" 
+                id="password" 
+                placeholder="Enter your Password" 
+                value={password}
+                onChange={(e) => setPassword(e.target.value)} 
+                required
+              />
             </div>
             <div className="form-check mb-3">
               <input type="checkbox" className="form-check-input" id="terms" />
@@ -34,7 +92,6 @@ function LoginPage() {
           </div>
         </div>
       </div>
-
 
       <div className="community-section mt-5 py-5" style={{ backgroundColor: '#FFAE80', borderRadius: '15px' }}>
         <div className="circle-1"></div>
