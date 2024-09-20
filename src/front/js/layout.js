@@ -21,7 +21,7 @@ import General from "./pages/general";
 import { Cloudinary } from "./pages/cloudinary";
 import RestorePassword from "./pages/restorePassword";
 
-import Profile from "./pages/profile";
+
 
 //create your first component
 const Layout = () => {
