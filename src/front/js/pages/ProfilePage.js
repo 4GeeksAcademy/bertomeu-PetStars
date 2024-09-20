@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-// import 'bootstrap/dist/css/bootstrap.min.css';
-// import { Button, Card, Container, Row, Col, Form } from 'react-bootstrap';
+
 
 
 export const ProfilePage = () => {

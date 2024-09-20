@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Button, Modal, Form, Container, Row, Col, Card } from 'react-bootstrap';
-import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 const ForumPage = () => {
   const [posts, setPosts] = useState([]);

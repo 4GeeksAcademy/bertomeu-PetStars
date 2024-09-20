@@ -2,11 +2,11 @@ import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import ScrollToTop from "./component/scrollToTop";
 import { BackendURL } from "./component/backendURL";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+// import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
 import { Home } from "./pages/home";
-import { Demo } from "./pages/demo";
+// import { Demo } from "./pages/demo";
 import { Single } from "./pages/single";
 import injectContext from "./store/appContext";
 
@@ -16,7 +16,7 @@ import LoginPage from "./pages/login";
 import SignupPage from "./pages/signup";
 import { ProfilePage } from './pages/ProfilePage';
 import ForumPage from './pages/forum';
-import Profiles from "./pages/profiles";
+// import Profiles from "./pages/profiles";
 import General from "./pages/general";
 import { Cloudinary } from "./pages/cloudinary";
 import RestorePassword from "./pages/restorePassword";
@@ -47,7 +47,7 @@ const Layout = () => {
                         <Route element={<SignupPage />} path="/signup" />
                         <Route element={<ProfilePage />} path="/yourprofile" />
                         <Route element={<ForumPage />} path="/forum" />
-                        <Route element={<Profiles />} path="/profiles" />
+                        
                         <Route element={<Profile />} path="/profile" />
                         <Route element={<ProfilePage />} path="/profilepage" />
                         <Route element={<Single />} path="/single/:theid" />
