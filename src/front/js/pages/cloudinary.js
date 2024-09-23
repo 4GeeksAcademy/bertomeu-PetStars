@@ -5,6 +5,7 @@ export const Cloudinary = () => {
     const { actions } = useContext(Context);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
     const [petStar, setPetStar] = useState('');
     const [image, setImage] = useState('');  //Cloudinary
     const [loading, setLoading] = useState(false);  //Cloudinary
@@ -30,7 +31,7 @@ export const Cloudinary = () => {
             const file = await response.json();
             let userPhoto = file.secure_url
             setUploadedImage(userPhoto)
-            await actions.register(email, password, petStar, userPhoto);
+            await actions.register(email, password, confirmPassword, petStar, userPhoto);
             setLoading(false);
         } catch (error) {
             console.error('Error uploading image:', error);
@@ -55,6 +56,10 @@ export const Cloudinary = () => {
                 <input type="password" id="password" name="password" className="form-control" placeholder="Password" required onChange={(e) => setPassword(e.target.value)} />
             </div>
             <div className="form-group py-3 fs-3">
+                <label className="ms-3 pb-3" for="confirmPassword">Confirm Password:</label>
+                <input type="password" id="confirmPassword" name="confirmPassword" className="form-control" placeholder="Confirm Password" required onChange={(e) => setConfirmPassword(e.target.value)} />
+            </div>
+            <div className="form-group py-3 fs-3">
                 <label className="ms-3 pb-3" for="petStar">PetStar:</label>
                 <input type="text" id="petStar" name="petStar" className="form-control" placeholder="PetStar" required onChange={(e) => setPetStar(e.target.value)} />
             </div>
@@ -66,7 +71,7 @@ export const Cloudinary = () => {
                     <img src={uploadedImage} onError={(event) => {
                         event.currentTarget.onerror = null; // prevents loop
                         event.currentTarget.src = "https://res.cloudinary.com/dyvut6idr/image/upload/v1726081257/SALE_qqx0ij.jpg";
-                    }} alt="imagen subida" />
+                    }} alt="imagen subida" height="60"/>
                 )}
                 <input type="file" id="userPhoto" name="userPhoto" className="form-control" placeholder="UserPhoto" onChange={(e) => setImage(e.target.files)} />
             </div>

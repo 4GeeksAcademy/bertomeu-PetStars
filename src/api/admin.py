@@ -1,7 +1,7 @@
   
 import os
 from flask_admin import Admin
-from .models import db, User, Post, CommentPost, ForumTopic, TopicResponse
+from .models import db, User, Post, CommentPost, ForumTopic, TopicResponse, RestorePassword
 from flask_admin.contrib.sqla import ModelView
 
 def setup_admin(app):
@@ -16,6 +16,7 @@ def setup_admin(app):
     admin.add_view(ModelView(CommentPost, db.session))
     admin.add_view(ModelView(ForumTopic, db.session))
     admin.add_view(ModelView(TopicResponse, db.session))
+    admin.add_view(ModelView(RestorePassword, db.session))
 
     # You can duplicate that line to add mew models
     # admin.add_view(ModelView(YourModelName, db.session))

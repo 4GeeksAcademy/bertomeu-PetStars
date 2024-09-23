@@ -12,7 +12,17 @@ const getState = ({ getStore, getActions, setStore }) => {
             topicResponses: []
         },
         actions: {
-            register: async (email, password, petStar, userPhoto, breed, birthDate, hobbies) => {
+            
+            register: async (email, password, confirmPassword, petStar, userPhoto, breed, birthDate, hobbies) => {
+                if (password !== confirmPassword) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Passwords do not match",
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+                    return;
+                }
                 try {
                     const response = await fetch(`${apiEndpoint}/api/register`, {
                         method: 'POST',
@@ -43,6 +53,7 @@ const getState = ({ getStore, getActions, setStore }) => {
                 }
             },
 
+            /
             login: async (email, password) => {
                 try {
                     const response = await fetch(`${apiEndpoint}/api/login`, {
@@ -75,6 +86,7 @@ const getState = ({ getStore, getActions, setStore }) => {
                 }
             },
 
+            // Logout user
             logout: () => {
                 localStorage.removeItem('token');
                 setStore({ user: null });
@@ -86,6 +98,7 @@ const getState = ({ getStore, getActions, setStore }) => {
                 });
             },
 
+           
             getUserInfo: async () => {
                 const token = localStorage.getItem('token');
                 if (token) {
@@ -121,93 +134,11 @@ const getState = ({ getStore, getActions, setStore }) => {
                 }
             },
 
+            
             modifyUserInfo: async (userPhoto, petStar, breed, birthDate, hobbies) => {
                 const token = localStorage.getItem('token');
                 if (token) {
                     try {
                         const response = await fetch(`${apiEndpoint}/api/user`, {
-                            method: 'PUT',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'Authorization': `Bearer ${token}`
-                            },
-                            body: JSON.stringify({ userPhoto, petStar, breed, birthDate, hobbies })
-                        });
-                        if (!response.ok) {
-                            throw new Error(response.statusText);
-                        }
-                        const data = await response.json();
-                        setStore({ user: data });
-                        Swal.fire({
-                            icon: "success",
-                            title: "Information updated successfully",
-                            showConfirmButton: false,
-                            timer: 2000
-                        });
-                    } catch (error) {
-                        console.error(error);
-                        Swal.fire({
-                            icon: "error",
-                            title: error.message,
-                            showConfirmButton: false,
-                            timer: 2000
-                        });
-                    }
-                } else {
-                    Swal.fire({
-                        icon: "error",
-                        title: "You must log in to access this information",
-                        showConfirmButton: false,
-                        timer: 2000
-                    });
-                }
-            },
+              
 
-            addPost: async (postPhoto, postText) => {
-                const token = localStorage.getItem('token');
-                if (token) {
-                    try {
-                        const response = await fetch(`${apiEndpoint}/api/post`, {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'Authorization': `Bearer ${token}`
-                            },
-                            body: JSON.stringify({ postPhoto, postText })
-                        });
-                        if (!response.ok) {
-                            throw new Error(response.statusText);
-                        }
-                        const data = await response.json();
-                        setStore({ posts: [...getStore().posts, data] });
-                        Swal.fire({
-                            icon: "success",
-                            title: "New post created",
-                            showConfirmButton: false,
-                            timer: 2000
-                        });
-                    } catch (error) {
-                        console.error(error);
-                        Swal.fire({
-                            icon: "error",
-                            title: error.message,
-                            showConfirmButton: false,
-                            timer: 2000
-                        });
-                    }
-                } else {
-                    Swal.fire({
-                        icon: "error",
-                        title: "You must log in to access this information",
-                        showConfirmButton: false,
-                        timer: 2000
-                    });
-                }
-            },
-
-            // Additional actions for forumTopics, topicResponses, comments, etc. follow the same pattern
-        }
-    };
-};
-
-export default getState;
