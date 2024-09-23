@@ -1,40 +1,43 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Button, Card, Container, Row, Col } from 'react-bootstrap';
+import { useParams } from 'react-router-dom'; 
+import { Context } from '../store/appContext';  
 
 function Profiles() {
-  const [posts, setPosts] = useState([
-    {
-      id: 1,
-      user: 'Roko',
-      image: 'https://via.placeholder.com/600x400',
-      caption: 'This is Roko!!!!!',
-      likes: 1400,
-      comments: 3000,
-    },
-    {
-      id: 2,
-      user: 'Roko',
-      image: 'https://via.placeholder.com/600x400',
-      caption: 'Hanging out with my pet!',
-      likes: 1200,
-      comments: 2500,
-    },
-  ]);
+  const { actions } = useContext(Context);  
+  const { username } = useParams();  
+  const [profile, setProfile] = useState(null);  
+  const [posts, setPosts] = useState([]); 
 
-  const [profile] = useState({
-    email: 'casa@gmail.com',
-    breed: 'Unknown',
-    born: 'June 26, 1990',
-    hobbies: 'Playing, Running',
-    profilePicture: 'https://www.smartdog.es/img/cms/BLOG/MASTIN/mastin%20espa%C3%B1ol%20(1).jpg',
-  });
+
+  useEffect(() => {
+    const fetchProfileAndPosts = async () => {
+      try {
+        const fetchedProfile = await actions.getUserProfileByUsername(username);  
+        const fetchedPosts = await actions.getPostsByUsername(username);  
+        
+        if (fetchedProfile) setProfile(fetchedProfile);
+        if (fetchedPosts) setPosts(fetchedPosts);
+      } catch (error) {
+        console.error('Error fetching profile or posts:', error);
+      }
+    };
+    
+    fetchProfileAndPosts();
+  }, [actions, username]);
+
+  if (!profile) {
+    return <div>Loading...</div>; 
+  }
 
   return (
     <Container fluid className="p-4" style={{ backgroundColor: '#FADCD9' }}>
       <div className="circle-1"></div>
       <div className="circle-2"></div>
       <div className="circle-3"></div>
+
+
       <Row className="justify-content-center mb-4">
         <Col xs={12} md={6} className="text-center">
           <div
@@ -49,7 +52,7 @@ function Profiles() {
             }}
           >
             <img
-              src={profile.profilePicture}
+              src={profile.profilePicture || 'https://via.placeholder.com/150'}
               alt="Profile"
               className="rounded-circle border border-white position-absolute"
               style={{
@@ -61,11 +64,12 @@ function Profiles() {
                 boxShadow: '0 4px 8px rgba(0,0,0,0.2)',
               }}
             />
-            <h2 className="mt-5 text-white">Roko</h2>
+            <h2 className="mt-5 text-white">{profile.username}</h2>  {/* Username */}
           </div>
         </Col>
       </Row>
 
+      
       <Row className="justify-content-center mb-2 p-5">
         <Col md={3}>
           <Card style={{ borderColor: '#FF7043', boxShadow: '0 4px 6px rgba(0,0,0,0.1)' }}>
@@ -79,10 +83,8 @@ function Profiles() {
           </Card>
         </Col>
 
-        <Col md={3
-            
-        }>
-          
+       
+        <Col md={3}>
           <div
             style={{
               maxHeight: '600px',
@@ -93,7 +95,7 @@ function Profiles() {
               boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
             }}
           >
-            {posts.map((post) => (
+            {posts.length > 0 ? posts.map((post) => (
               <Card
                 className="mb-2"
                 key={post.id}
@@ -123,7 +125,9 @@ function Profiles() {
                   </div>
                 </Card.Body>
               </Card>
-            ))}
+            )) : (
+              <p>No posts available.</p>
+            )}
           </div>
         </Col>
       </Row>

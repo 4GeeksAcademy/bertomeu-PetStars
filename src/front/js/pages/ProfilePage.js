@@ -121,8 +121,8 @@ function ProfilePage() {
   // Handle like functionality
   const handleLike = async (postId) => {
     try {
-      await actions.toggleLike(postId); // API call to like/unlike the post
-      const updatedPosts = await actions.getPosts(); // Fetch updated posts after liking
+      await actions.toggleLike(postId); 
+      const updatedPosts = await actions.getPosts(); 
       setPosts(updatedPosts);
     } catch (error) {
       Swal.fire({
@@ -138,8 +138,8 @@ function ProfilePage() {
   // Handle adding a comment to a post
   const handleAddComment = async (postId, commentText) => {
     try {
-      await actions.addComment(postId, commentText); // API call to add comment
-      const updatedPosts = await actions.getPosts(); // Fetch updated posts after commenting
+      await actions.addComment(postId, commentText); 3
+      const updatedPosts = await actions.getPosts(); 
       setPosts(updatedPosts);
     } catch (error) {
       Swal.fire({
@@ -184,7 +184,7 @@ function ProfilePage() {
                 boxShadow: '0 4px 8px rgba(0,0,0,0.2)',
               }}
             />
-            <h2 className="mt-5 text-white">{profile.username}</h2> {/* Display username */}
+            <h2 className="mt-5 text-white">{profile.username}</h2> 
           </div>
         </Col>
       </Row>
@@ -264,7 +264,7 @@ function ProfilePage() {
             </Modal.Footer>
           </Modal>
 
-          {/* List of Posts */}
+         
           <div
             style={{
               maxHeight: '600px',
@@ -306,14 +306,14 @@ function ProfilePage() {
                       <Button
                         variant="link"
                         className="p-0"
-                        onClick={() => handleAddComment(post.id, 'Nice post!')} // Example comment
+                        onClick={() => handleAddComment(post.id, 'Nice post!')}
                         style={{ color: '#FF7043' }}
                       >
                         💬 {post.comments.length}
                       </Button>
                     </div>
                   </div>
-                  {/* Display Comments */}
+                
                   {post.comments.map((comment, index) => (
                     <div key={index} className="mt-2" style={{ fontSize: '12px' }}>
                       <strong>{comment.user}</strong>: {comment.text}
@@ -326,7 +326,7 @@ function ProfilePage() {
         </Col>
       </Row>
 
-      {/* Edit Profile Modal */}
+     
       <Modal show={showProfileModal} onHide={() => setShowProfileModal(false)} centered>
         <Modal.Header closeButton>
           <Modal.Title>Edit Profile</Modal.Title>
