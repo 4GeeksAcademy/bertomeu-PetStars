@@ -34,6 +34,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 								window.location.href = '/login?error=true';
 							}
 						})
+						
 						.catch((error) => {
 							console.error(error);
 						});
