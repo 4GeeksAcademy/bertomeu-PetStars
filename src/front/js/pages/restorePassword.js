@@ -49,17 +49,17 @@ const RestorePassword = () => {
           <p>Join a vibrant community of pet enthusiasts.</p>
           <div className="row">
             <div className="col-md-4">
-              <img src="https://i.cbc.ca/1.5077459.1553886010!/fileImage/httpImage/pets.jpg" alt="Share Pet Journey" className="img-fluid rounded" />
+              <img src="https://res.cloudinary.com/dyvut6idr/image/upload/v1725641292/dog-7174266_1280_jqdyom.jpg" alt="Share Pet Journey" className="img-fluid rounded" />
               <h5 className="mt-3">Share Your Pet's Journey</h5>
               <p>Document and share your pet's adventures with friends.</p>
             </div>
             <div className="col-md-4">
-              <img src="https://i.cbc.ca/1.5077459.1553886010!/fileImage/httpImage/pets.jpg" alt="Find New Friends" className="img-fluid rounded" />
+              <img src="https://res.cloudinary.com/dyvut6idr/image/upload/v1725641292/animal-4085255_1280_hdbrcc.jpg" alt="Find New Friends" className="img-fluid rounded" />
               <h5 className="mt-3">Find New Friends</h5>
               <p>Meet fellow pet owners and make lasting connections.</p>
             </div>
             <div className="col-md-4">
-              <img src="https://i.cbc.ca/1.5077459.1553886010!/fileImage/httpImage/pets.jpg" alt="Stay Updated" className="img-fluid rounded" />
+              <img src="https://res.cloudinary.com/dyvut6idr/image/upload/v1725641292/shepherd-dog-4357790_1280_n55hd7.jpg" alt="Stay Updated" className="img-fluid rounded" />
               <h5 className="mt-3">Stay Updated</h5>
               <p>Get the latest news and tips for pet care.</p>
             </div>

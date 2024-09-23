@@ -102,6 +102,8 @@ def serve_any_other_file(path):
     response.cache_control.max_age = 0  # avoid cache memory
     return response
 
+
+
 @app.route("/api/register", methods=["POST"])
 def register():
     body = request.get_json(silent=True)
@@ -259,8 +261,13 @@ def login():
                     'jwt_token': access_token,
                     'user_data': {
                         'id': user.id,
-                        'email': user.email
-                        
+                        'email': user.email,
+                        'userphoto': user.userPhoto,
+                        'petStar': user.petStar,
+                        'breed': user.breed,
+                        'birthDate': user.birthDate,
+                        'hobbies': user.hobbies                      
+                                               
                     }
                     }), 200
 
