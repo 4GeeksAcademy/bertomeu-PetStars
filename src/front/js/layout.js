@@ -10,7 +10,6 @@ import { Demo } from "./pages/demo";
 import { Single } from "./pages/single";
 import injectContext from "./store/appContext";
 
-
 import { Navbar } from "./component/navbar";
 import { Footer } from "./component/footer";
 import LoginPage from "./pages/login";
@@ -18,6 +17,8 @@ import SignupPage from "./pages/signup";
 import ProfilePage from "./pages/ProfilePage";
 import ForumPage from './pages/forum';
 import Profiles from "./pages/profiles";
+import General from "./pages/general";
+import Profile from "./pages/profile";
 
 
 //create your first component
@@ -26,7 +27,9 @@ const Layout = () => {
     // you can set the basename on the .env file located at the root of this project, E.g: BASENAME=/react-hello-webapp/
     const basename = process.env.BASENAME || "";
 
-    if (!process.env.BACKEND_URL || process.env.BACKEND_URL == "") return <BackendURL />;
+    if (!process.env.BACKEND_URL || process.env.BACKEND_URL === "") {
+        return <BackendURL />;
+    }
 
     return (
         <div>
@@ -35,15 +38,15 @@ const Layout = () => {
                     <Navbar />
                     <Routes>
                         <Route element={<Home />} path="/" />
-                        <Route element={<Demo />} path="/demo" />
-                        <Route element={<Single />} path="/single/:theid" />
-                        <Route element={<h1>Not found!</h1>} />
+                        <Route element={<General />} path="/general" />
                         <Route element={<LoginPage />} path="/login" />
                         <Route element={<SignupPage />} path="/signup" />
                         <Route element={<ProfilePage />} path="/yourprofile" />
                         <Route element={<ForumPage />} path="/forum" />
                         <Route element={<Profiles />} path="/profiles" />
-
+                        <Route element={<Profile />} path="/profile" />
+                        <Route element={<Single />} path="/single/:theid" />
+                        <Route element={<h1>Not found!</h1>} path="*" />
                     </Routes>
                     <Footer />
                 </ScrollToTop>
