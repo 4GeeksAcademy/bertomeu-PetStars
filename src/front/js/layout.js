@@ -19,6 +19,7 @@ import ProfilePage from "./pages/ProfilePage";
 import ForumPage from './pages/forum';
 import Profiles from "./pages/profiles";
 
+
 //create your first component
 const Layout = () => {
     //the basename is used when your project is published in a subdirectory and not in the root of the domain
