@@ -1,27 +1,39 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import Swal from 'sweetalert2';
 import { Button, Modal, Form, Container, Row, Col, Card } from 'react-bootstrap';
-import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 const ForumPage = () => {
-  const [posts, setPosts] = useState([]);
+  const { store, actions } = useContext(Context);
   const [showModal, setShowModal] = useState(false);
   const [postContent, setPostContent] = useState('');
   const [postTopic, setPostTopic] = useState('');
   const [customTopic, setCustomTopic] = useState('');
   const [isCustomTopic, setIsCustomTopic] = useState(false);
 
+  useEffect(() => {
+    actions.getAllForumTopics(); 
+  }, []);
+
   const handleShowModal = () => setShowModal(true);
   const handleCloseModal = () => setShowModal(false);
 
-  const handlePostSubmit = (e) => {
+  const handlePostSubmit = async (e) => {
     e.preventDefault();
-    const newPost = {
-      id: posts.length + 1,
-      content: postContent,
-      topic: isCustomTopic ? customTopic : postTopic,
-      author: 'ocaanaaa',
-    };
-    setPosts([...posts, newPost]);
+    const forumTopicTittle = isCustomTopic ? customTopic : postTopic;
+    const forumTopicText = postContent;
+
+    if (!forumTopicTittle || !forumTopicText) {
+      Swal.fire({
+        icon: "error",
+        title: "Please fill in all fields",
+        showConfirmButton: false,
+        timer: 2000
+      });
+      return;
+    }
+
+    await actions.addForumTopic(forumTopicTittle, forumTopicText);
     setPostContent('');
     setPostTopic('');
     setCustomTopic('');
@@ -42,11 +54,9 @@ const ForumPage = () => {
 
   return (
     <div className="forum-page" style={styles.page}>
-      
       <div style={styles.shape1}></div>
       <div style={styles.shape2}></div>
 
-      
       <div className="top-bar text-center py-3" style={styles.topBar}>
         <Button variant="light" onClick={handleShowModal}>¿Tienes algo que compartir con otros petstars? Coméntalo en el Foro.</Button>
       </div>
@@ -58,8 +68,8 @@ const ForumPage = () => {
 
       <Container className="posts-section mt-5">
         <Row>
-          {posts.map((post) => (
-            <Col key={post.id} xs={12} className="mb-4">
+          {store.forumTopics.map((topic) => (
+            <Col key={topic.id} xs={12} className="mb-4">
               <Card className="post-card p-3" style={styles.card}>
                 <Row>
                   <Col xs={2} className="text-center">
@@ -69,11 +79,11 @@ const ForumPage = () => {
                       className="rounded-circle"
                       style={styles.authorImg}
                     />
-                    <p>{post.author}</p>
+                    <p>{topic.author}</p>
                   </Col>
                   <Col xs={10}>
-                    <h5>{post.topic}</h5>
-                    <p>{post.content}</p>
+                    <h5>{topic.forumTopicTittle}</h5>
+                    <p>{topic.forumTopicText}</p>
                   </Col>
                 </Row>
               </Card>
@@ -82,7 +92,6 @@ const ForumPage = () => {
         </Row>
       </Container>
 
-      
       <Modal show={showModal} onHide={handleCloseModal}>
         <Modal.Header closeButton>
           <Modal.Title>Share a Post on the Forum</Modal.Title>
@@ -109,7 +118,6 @@ const ForumPage = () => {
                 required
               >
                 <option value="">Choose a topic...</option>
-                <option value="Golden Retrievers">Golden Retrievers</option>
                 <option value="Dog Training">Dog Training</option>
                 <option value="Pet Care">Pet Care</option>
                 <option value="Pet Nutrition">Pet Nutrition</option>
@@ -117,7 +125,6 @@ const ForumPage = () => {
               </Form.Control>
             </Form.Group>
 
-           
             {isCustomTopic && (
               <Form.Group className="mb-3">
                 <Form.Label>Custom Topic</Form.Label>
