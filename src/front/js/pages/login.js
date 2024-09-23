@@ -1,67 +1,132 @@
-
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useContext } from 'react';
+import React, { useState, useContext } from 'react';
+import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router-dom'; // From development
+import 'bootstrap/dist/css/bootstrap.min.css';
 import { Context } from '../store/appContext';
 
-//import 'bootstrap/dist/css/bootstrap.min.css';
-
-
-const LoginPage = () => {
+function LoginPage() {
   const { actions } = useContext(Context);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const navigate = useNavigate();
+  const navigate = useNavigate(); // Replaces window.location.href
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    actions.login(email, password);    
-    //navigate('/'); 
-  } 
+
+    if (!email || !password) {
+      Swal.fire({
+        icon: "error",
+        title: "Please fill in all fields",
+        showConfirmButton: false,
+        timer: 2000
+      });
+      return;
+    }
+
+    try {
+      await actions.login(email, password);
+      Swal.fire({
+        icon: "success",
+        title: "Login successful!",
+        showConfirmButton: false,
+        timer: 2000
+      });
+      navigate('/'); // Navigate to home on successful login
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Login failed",
+        text: error.message,
+        showConfirmButton: false,
+        timer: 2000
+      });
+    }
+  };
+
+  // Handle forgot password
   const handleSendRestorePassword = async (e) => {
     e.preventDefault();
-    actions.sendRestorePassword(email);
-  }
-  
 
+    if (!email) {
+      Swal.fire({
+        icon: "error",
+        title: "Please enter your email",
+        showConfirmButton: false,
+        timer: 2000
+      });
+      return;
+    }
 
-
+    try {
+      await actions.sendRestorePassword(email);
+      Swal.fire({
+        icon: "success",
+        title: "Password reset link sent",
+        showConfirmButton: false,
+        timer: 2000
+      });
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Failed to send reset link",
+        text: error.message,
+        showConfirmButton: false,
+        timer: 2000
+      });
+    }
+  };
 
   return (
     <div className="signup-page">
       <div className="circle-1"></div>
       <div className="circle-2"></div>
       <div className="circle-3"></div>
-      
 
       <div className="container d-flex flex-column align-items-center mt-5">
         <div className="card p-4 shadow-sm" style={{ width: '400px', borderRadius: '12px' }}>
           <h2 className="text-center mb-4">Log In</h2>
           <p className="text-center text-muted">Access your account to unlock exclusive features.</p>
-          <form>
+          <form onSubmit={handleSubmit}>
             <div className="mb-3">
               <label htmlFor="email" className="form-label">Email</label>
-              <input type="email" className="form-control" id="email" placeholder="Enter your Email" required onChange={(e) => setEmail(e.target.value)}/>
+              <input 
+                type="email" 
+                className="form-control" 
+                id="email" 
+                placeholder="Enter your Email" 
+                value={email}
+                onChange={(e) => setEmail(e.target.value)} 
+                required
+              />
             </div>
             <div className="mb-3">
               <label htmlFor="password" className="form-label">Password</label>
-              <input type="password" className="form-control" id="password" placeholder="Enter your Password" required onChange={(e) => setPassword(e.target.value)}/>
+              <input 
+                type="password" 
+                className="form-control" 
+                id="password" 
+                placeholder="Enter your Password" 
+                value={password}
+                onChange={(e) => setPassword(e.target.value)} 
+                required
+              />
             </div>
             <div className="mb-3">
-              <label >
-                <a data-bs-toggle="modal" data-bs-target="#forgotPasswordModal" className="btn" style={{ color: 'blue' }}>Forgot password?</a> 
-              </label>            
+              <label>
+                <a data-bs-toggle="modal" data-bs-target="#forgotPasswordModal" className="btn" style={{ color: 'blue' }}>
+                  Forgot password?
+                </a> 
+              </label>
             </div>
 
-            <button type="submit" className="btn btn-primary w-100" onClick={handleSubmit}>Login</button>
-
+            <button type="submit" className="btn btn-primary w-100">Login</button>
           </form>
+
           <div className="text-center mt-3">
             <p>Don't have an account? <a href="/signup">Sign up now</a></p>
           </div>
         </div>
       </div>
-
 
       {/* Modal for forgotten password */}
       <div className="modal fade" id="forgotPasswordModal" tabIndex="-1" aria-labelledby="forgotPasswordModalLabel" aria-hidden="true">
@@ -75,18 +140,30 @@ const LoginPage = () => {
               <form>
                 <div className="mb-3">
                   <label htmlFor="forgotEmail" className="form-label">Email</label>
-                  <input type="email" className="form-control" id="forgotEmail" placeholder="Enter your Email" required onChange={(e) => setEmail(e.target.value)} />
+                  <input 
+                    type="email" 
+                    className="form-control" 
+                    id="forgotEmail" 
+                    placeholder="Enter your Email" 
+                    required 
+                    onChange={(e) => setEmail(e.target.value)} 
+                  />
                 </div>
-                <button type="submit" className="btn btn-primary w-100" onClick={handleSendRestorePassword} data-bs-dismiss="modal">Send Reset Link</button>
+                <button 
+                  type="submit" 
+                  className="btn btn-primary w-100" 
+                  onClick={handleSendRestorePassword} 
+                  data-bs-dismiss="modal"
+                >
+                  Send Reset Link
+                </button>
               </form>
             </div>
           </div>
         </div>
       </div>
 
-      
       <div className="community-section bg-light mt-5 py-5">
-
         <div className="container text-center">
           <h3 className="mb-4">Connect with Pet Lovers</h3>
           <p>Join a vibrant community of pet enthusiasts.</p>
