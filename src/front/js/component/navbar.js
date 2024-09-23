@@ -1,19 +1,60 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
+import { Context } from '../store/appContext';
 
 export const Navbar = () => {
+
+	const { store, actions } = useContext(Context);
+
+	const handleLogout = () => {
+		actions.logout();
+	};
+
 	return (
-		<nav className="navbar navbar-light bg-light">
-			<div className="container">
-				<Link to="/">
-					<span className="navbar-brand mb-0 h1">React Boilerplate</span>
-				</Link>
-				<div className="ml-auto">
-					<Link to="/demo">
-						<button className="btn btn-primary">Check the Context in action</button>
-					</Link>
-				</div>
-			</div>
-		</nav>
+		
+		<div >
+			{
+				store.user ?
+					<nav className="navbar navbar-expand-lg navbar-light">
+						<div className="container">
+							<a className="navbar-brand" href="#"><img src="https://res.cloudinary.com/dyvut6idr/image/upload/v1725640842/Logo_PetStar-removebg-preview_oo91wx.png" alt="PetStar" height="40" /></a>
+							<button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+								<span className="navbar-toggler-icon"></span>
+							</button>
+							<div className="collapse navbar-collapse" id="navbarNav">
+								<ul className="navbar-nav mx-auto">
+									<li className="nav-item"><a className="nav-link" href="/">Home</a></li>
+									<li className="nav-item"><a className="nav-link" href="#">Foro</a></li>
+									<li className="nav-item"><a className="btn btn-primary ms-2" href="/" onClick={handleLogout}>Log out</a></li>
+									<div className="profile-picture-container">
+										<img src="https://res.cloudinary.com/dyvut6idr/image/upload/v1725641292/dog-7174266_1280_jqdyom.jpg" className="rounded-circle profile-picture" alt="Profile Picture" />
+									</div>
+									<h3 className="text-center mt-4">Roko</h3>
+								</ul>
+							</div>
+						</div>
+					</nav> :
+					<>
+						<nav class="navbar navbar-expand-lg navbar-light">
+							<div class="container">
+								<a class="navbar-brand" href="#"><img src="https://res.cloudinary.com/dyvut6idr/image/upload/v1725640842/Logo_PetStar-removebg-preview_oo91wx.png" alt="PetStar" height="40" /></a>
+								<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+									<span class="navbar-toggler-icon"></span>
+								</button>
+								<div class="collapse navbar-collapse" id="navbarNav">
+									<ul class="navbar-nav ms-auto">
+										<li class="nav-item"><a class="nav-link" href="#">Home</a></li>
+										<li class="nav-item"><a class="nav-link" href="#">Foro</a></li>
+										<div class="sticky-bottom d-flex justify-content-end">
+										    <li class="nav-item"><a class="btn btn-warning text-white ms-2" href="#">Join PetStar Now!</a></li>
+											<li class="nav-item"><a class="btn btn-primary ms-2" href="#">Log In</a></li>
+										</div>
+									</ul>
+								</div>
+							</div>
+						</nav>
+					</>
+			}
+		</div>
 	);
 };
