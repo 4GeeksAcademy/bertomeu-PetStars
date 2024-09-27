@@ -169,11 +169,17 @@ def change_password():
     user = User.query.filter_by(email=current_user_email).first()
 
     body = request.get_json(silent=True)
-    if not body or 'old_password' not in body or 'new_password' not in body:
-        return jsonify({'msg': 'Old password and new password fields are required'}), 400
+    if not body or 'old_password' not in body or 'new_password' not in body or 'confirm_new_password' not in body:
+        return jsonify({'msg': 'Old password, new password and confirm new password fields are required'}), 400
 
     if not bcrypt.check_password_hash(user.password, body['old_password']):
         return jsonify({'msg': 'Invalid old password'}), 401
+
+    if body['new_password'] == body['old_password']:
+        return jsonify({'msg': 'New password must be different from old password'}), 400
+
+    if body['new_password'] != body['confirm_new_password']:
+        return jsonify({'msg': 'New password and confirm new password do not match'}), 400
 
     new_password_hash = bcrypt.generate_password_hash(body['new_password']).decode('utf-8')
     user.password = new_password_hash
@@ -279,7 +285,7 @@ def get_user_info():
     return jsonify({'msg': 'ok', 
                     'user_data': {                                
                                 'email': user.email,
-                                'userphoto': user.userPhoto,
+                                'userPhoto': user.userPhoto,
                                 'petStar': user.petStar,
                                 'breed': user.breed,
                                 'birthDate': user.birthDate,
@@ -293,10 +299,19 @@ def modified_user_info():
     user = User.query.filter_by(email=current_user_email).first()
     body = request.get_json(silent=True)
         
-    for field in ['userPhoto', 'petStar', 'breed', 'birthDate', 'hobbies']:
-        if field in body:
-            setattr(user, field, body[field])
-        
+    #for field in ['userPhoto', 'petStar', 'breed', 'birthDate', 'hobbies']:
+    #    if field in body:
+    #        setattr(user, field, body[field])
+    if 'petStar' in body:
+        user.petStar = body['petStar']
+    if 'breed' in body:
+        user.breed = body['breed']    
+    if 'birthDate' in body:
+        user.birthDate = body['birthDate']
+    if 'hobbies' in body:
+        user.hobbies = body['hobbies']     
+    if 'userPhoto' in body:
+        user.userPhoto = body['userPhoto']     
     db.session.commit()
     return jsonify({'msg': 'Information updated successfully'}), 200
 
@@ -351,7 +366,8 @@ def get_all_posts():
                         'postText': post.postText,
                         'author': {
                             'petStar': post.user_relationship.petStar,
-                            'email': post.user_relationship.email
+                            'email': post.user_relationship.email,
+                            'userPhoto': post.user_relationship.userPhoto
                         }
                     } for post in posts]
                     }), 200
@@ -414,8 +430,8 @@ def add_forum_topic():
     user = User.query.filter_by(email=current_user_email).first()
     body = request.get_json(silent=True)
 
-    if not body or 'forumTopicTittle' not in body or 'forumTopicText' not in body:
-        return jsonify({'msg': 'forumTopicTittle and forumTopicText fields are required'}), 400
+    #if not body or 'forumTopicTittle' not in body or 'forumTopicText' not in body:
+     #   return jsonify({'msg': 'forumTopicTittle and forumTopicText fields are required'}), 400
     
     new_forumTopic = ForumTopic()
     new_forumTopic.forumTopicTittle = body['forumTopicTittle']
@@ -459,7 +475,8 @@ def get_all_forum_topics():
             'forumTopicText': forumTopic.forumTopicText,
             'author': {
                 'petStar': forumTopic.user_relationship.petStar,
-                'email': forumTopic.user_relationship.email
+                'email': forumTopic.user_relationship.email,
+                'userPhoto': forumTopic.user_relationship.userPhoto
             }
         } for forumTopic in forumTopics]
     }), 200

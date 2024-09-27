@@ -1,103 +1,122 @@
 import React, { useState, useEffect, useContext } from 'react';
 import Swal from 'sweetalert2';
 import { Button, Modal, Form, Container, Row, Col, Card } from 'react-bootstrap';
-
+import { Context } from '../store/appContext';
+import { useNavigate } from 'react-router-dom';
 
 const ForumPage = () => {
   const { store, actions } = useContext(Context);
+  const [forumTopics, setForumTopics] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [postContent, setPostContent] = useState('');
-  const [postTopic, setPostTopic] = useState('');
-  const [customTopic, setCustomTopic] = useState('');
-  const [isCustomTopic, setIsCustomTopic] = useState(false);
-
+  const [postTopic, setPostTopic] = useState(''); 
+  const navigate = useNavigate();
+  
+  const modalRef = React.createRef(null);
+ 
   useEffect(() => {
-    actions.getAllForumTopics(); 
+    actions.getToken();
+    actions.getUserInfo();
+    actions.getAllForumTopics();    
+    
   }, []);
 
-  const handleShowModal = () => setShowModal(true);
-  const handleCloseModal = () => setShowModal(false);
+  useEffect(() => {
+    setForumTopics(store.forumTopics);
+  }, [store.forumTopics]);  
+
+  const handleShowModal = () => {
+    setShowModal(true);
+    setTimeout(() => {
+      modalRef.current && modalRef.current.focus();
+    }, 100);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
 
   const handlePostSubmit = async (e) => {
     e.preventDefault();
-    const forumTopicTittle = isCustomTopic ? customTopic : postTopic;
-    const forumTopicText = postContent;
 
-    if (!forumTopicTittle || !forumTopicText) {
+    if (!postTopic || !postContent) {
       Swal.fire({
-        icon: "error",
-        title: "Please fill in all fields",
+        icon: 'error',
+        title: 'Please fill in all fields',
         showConfirmButton: false,
-        timer: 2000
+        timer: 2000,
       });
       return;
     }
 
-    await actions.addForumTopic(forumTopicTittle, forumTopicText);
+    await actions.addForumTopic(postTopic, postContent);
+
     setPostContent('');
     setPostTopic('');
-    setCustomTopic('');
-    setIsCustomTopic(false);
     handleCloseModal();
-  };
-
-  const handleTopicChange = (e) => {
-    const selectedTopic = e.target.value;
-    setPostTopic(selectedTopic);
-    if (selectedTopic === 'Other') {
-      setIsCustomTopic(true);
-    } else {
-      setIsCustomTopic(false);
-      setCustomTopic('');
-    }
+    window.location.reload();
   };
 
   return (
     <div className="forum-page" style={styles.page}>
       <div style={styles.shape1}></div>
       <div style={styles.shape2}></div>
-
       <div className="top-bar text-center py-3" style={styles.topBar}>
-        <Button variant="light" onClick={handleShowModal}>¿Tienes algo que compartir con otros petstars? Coméntalo en el Foro.</Button>
+        <Button variant="light" onClick={handleShowModal}>
+          Do you have something to share with other petstars? Share it in the Forum.
+        </Button>
       </div>
-
       <Container className="text-center mt-5">
         <h1>PetStars Forum</h1>
-        <p>Este es tu espacio para resolver dudas sobre tu mascota, leer las experiencias de otros dueños y encontrar todo tipo de información sobre la estrella de la casa.</p>
+        <p>This is your space to resolve doubts about your pet, read the experiences of other owners and find all kinds of information about the star of the house.</p>
       </Container>
-
       <Container className="posts-section mt-5">
         <Row>
-          {store.forumTopics.map((topic) => (
-            <Col key={topic.id} xs={12} className="mb-4">
-              <Card className="post-card p-3" style={styles.card}>
-                <Row>
-                  <Col xs={2} className="text-center">
-                    <img
-                      src="https://via.placeholder.com/80"
-                      alt="Author"
-                      className="rounded-circle"
-                      style={styles.authorImg}
-                    />
-                    <p>{topic.author}</p>
-                  </Col>
-                  <Col xs={10}>
-                    <h5>{topic.forumTopicTittle}</h5>
-                    <p>{topic.forumTopicText}</p>
-                  </Col>
-                </Row>
-              </Card>
-            </Col>
-          ))}
+          {forumTopics?.length > 0 ? (
+            forumTopics.map((forumTopic, index) => (              
+              <Col key={index} xs={12} className="mb-4">
+                <Card className="post-card p-3" style={styles.card}>
+                  <Row>
+                    <Col xs={2} className="text-center">
+                    <img src={forumTopic.author.userPhoto} className="rounded-circle profile-picture ms-3" alt="Profile Picture" />
+                      <p>{forumTopic.author.petStar}</p>
+                    </Col>
+                    <Col xs={10}>
+                      <h5>{forumTopic.forumTopicTittle}</h5>
+                      <p>{forumTopic.forumTopicText}</p>
+                    </Col>
+                  </Row>
+                </Card>
+              </Col>
+            ))
+          ) : (
+            <p>No topics available yet.</p>
+          )}
         </Row>
       </Container>
-
-      <Modal show={showModal} onHide={handleCloseModal}>
+      <Modal
+        show={showModal}
+        onHide={handleCloseModal}
+        aria-hidden={!showModal}
+        tabIndex={-1}
+        ref={modalRef}
+      >
         <Modal.Header closeButton>
           <Modal.Title>Share a Post on the Forum</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form onSubmit={handlePostSubmit}>
+            <Form.Group className="mb-3">
+              <Form.Label>Forum Topic</Form.Label>
+              <Form.Control
+                type="text"
+                value={postTopic}
+                onChange={(e) => setPostTopic(e.target.value)}
+                placeholder="Enter the topic title..."
+                required
+              />
+            </Form.Group>
+
             <Form.Group className="mb-3">
               <Form.Label>Post Content</Form.Label>
               <Form.Control
@@ -109,36 +128,10 @@ const ForumPage = () => {
                 required
               />
             </Form.Group>
-            <Form.Group className="mb-3">
-              <Form.Label>Select Topic</Form.Label>
-              <Form.Control
-                as="select"
-                value={postTopic}
-                onChange={handleTopicChange}
-                required
-              >
-                <option value="">Choose a topic...</option>
-                <option value="Dog Training">Dog Training</option>
-                <option value="Pet Care">Pet Care</option>
-                <option value="Pet Nutrition">Pet Nutrition</option>
-                <option value="Other">Other</option>
-              </Form.Control>
-            </Form.Group>
 
-            {isCustomTopic && (
-              <Form.Group className="mb-3">
-                <Form.Label>Custom Topic</Form.Label>
-                <Form.Control
-                  type="text"
-                  value={customTopic}
-                  onChange={(e) => setCustomTopic(e.target.value)}
-                  placeholder="Enter your topic..."
-                  required
-                />
-              </Form.Group>
-            )}
-
-            <Button variant="primary" type="submit">Post</Button>
+            <Button variant="primary" type="submit">
+              Post
+            </Button>
           </Form>
         </Modal.Body>
       </Modal>
@@ -148,44 +141,49 @@ const ForumPage = () => {
 
 const styles = {
   page: {
-    backgroundColor: '#FFE3D7',
-    minHeight: '100vh',
+    backgroundColor: '#f5f5f5',
+    maxWidth: '100vw', 
+    overflowX: 'hidden', 
     position: 'relative',
-  },
-  topBar: {
-    backgroundColor: '#FF6B35',
-    color: '#fff',
   },
   shape1: {
     position: 'absolute',
-    top: '20px',
-    right: '50px',
-    width: '100px',
-    height: '100px',
-    backgroundColor: 'rgba(255, 105, 50, 0.7)',
-    borderRadius: '50%',
-    boxShadow: '5px 5px 15px rgba(0, 0, 0, 0.2)',
+    top: 0,
+    left: 0,
+    width: '100vw', 
+    height: '100vh',
+    backgroundColor: '#f5f5f5',
+    zIndex: -1,
   },
   shape2: {
     position: 'absolute',
-    bottom: '20px',
-    left: '30px',
-    width: '150px',
-    height: '150px',
-    backgroundColor: 'rgba(255, 165, 0, 0.5)',
-    borderRadius: '50%',
-    boxShadow: '5px 5px 20px rgba(0, 0, 0, 0.2)',
+    top: 0,
+    left: 0,
+    width: '100vw', 
+    height: '100vh',
+    backgroundColor: '#f5f5f5',
+    zIndex: -1,
+    transform: 'rotate(45deg)',
+  },
+  topBar: {
+    backgroundColor: '#333',
+    color: '#fff',
+    padding: '10px',
+    borderRadius: '10px',
   },
   card: {
-    border: '1px solid #ffa370',
+    boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
     borderRadius: '10px',
-    boxShadow: '3px 3px 10px rgba(0, 0, 0, 0.1)',
+    padding: '20px',
   },
   authorImg: {
     width: '80px',
     height: '80px',
-    objectFit: 'cover',
+    borderRadius: '50%',
   },
+  
 };
 
+
 export default ForumPage;
+

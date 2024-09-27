@@ -1,59 +1,63 @@
-import React, { useState, useContext } from 'react';
-import Swal from 'sweetalert2';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import { Context } from '../store/appContext';
+import React, { useContext, useState } from "react";
+import { Context } from "../store/appContext";
+import { useNavigate } from 'react-router-dom';
+//import 'bootstrap/dist/css/bootstrap.min.css';
 
-function SignupPage() {
+function Signup() {
   const { actions } = useContext(Context);
-
-  const [petstarName, setPetstarName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [termsAccepted, setTermsAccepted] = useState(false);
+  const [petStar, setPetStar] = useState('');
+  const [birthDate, setBirthDate] = useState('');
+  const [hobbies, setHobbies] = useState('');
+  const [breed, setBreed] = useState('');
+  const navigate = useNavigate();
+  const [image, setImage] = useState('');  //Cloudinary
+  const [loading, setLoading] = useState(false);  //Cloudinary
+  const [uploadedImage, setUploadedImage] = useState('');   //Cloudinary
+  //login cloudinary
+  const preset_name = process.env.CLOUDINARY_PRESET_NAME;
+  const cloud_name = process.env.CLOUDINARY_CLOUD_NAME;
+
+  const uploadImage = async () => {
+    const files = image
+    const data = new FormData()
+    data.append('file', files[0])
+    data.append('upload_preset', preset_name)
+
+    setLoading(true)
+
+    try {
+      const response = await fetch(`https://api.cloudinary.com/v1_1/${cloud_name}/image/upload`, {
+        method: 'POST',
+        body: data
+      });
+
+      const file = await response.json();
+      let userPhoto = file.secure_url
+      setUploadedImage(userPhoto)
+      await actions.register(petStar, email, password, confirmPassword, breed, birthDate, hobbies, userPhoto);
+      setLoading(false);
+    } catch (error) {
+      console.error('Error uploading image:', error);
+      setLoading(false);
+    }
+
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    if (!termsAccepted) {
-      Swal.fire({
-        icon: "error",
-        title: "You must accept the terms and conditions",
-        showConfirmButton: false,
-        timer: 2000
-      });
-      return;
-    }
-
-    if (password !== confirmPassword) {
-      Swal.fire({
-        icon: "error",
-        title: "Passwords do not match",
-        showConfirmButton: false,
-        timer: 2000
-      });
-      return;
-    }
-
-    try {
-      
-      await actions.register(email, password, confirmPassword, petstarName, null, null, null, null);
-      Swal.fire({
-        icon: "success",
-        title: "Account created successfully!",
-        showConfirmButton: false,
-        timer: 2000
-      });
-    } catch (error) {
-      Swal.fire({
-        icon: "error",
-        title: "Registration failed",
-        text: error.message,
-        showConfirmButton: false,
-        timer: 2000
-      });
-    }
+    await uploadImage()
+    navigate('/login');
   };
+
+  /*const handleSubmit = async (e) => {
+    e.preventDefault();
+    await actions.register(email, password, confirmPassword, petStar)
+    navigate('/login');
+  }*/
+
 
   return (
     <div className="signup-page">
@@ -61,71 +65,52 @@ function SignupPage() {
       <div className="circle-2"></div>
       <div className="circle-3"></div>
 
-      <div className="container d-flex flex-column align-items-center mt-5">
-        <div className="card p-4 shadow-sm" style={{ width: '400px', borderRadius: '12px' }}>
+      <div className="container d-flex flex-column align-items-center mt-5" onSubmit={handleSubmit}>
+        <div className="card p-4 shadow-sm" style={{ width: '600px', borderRadius: '12px' }}>
           <h2 className="text-center mb-4">Sign Up</h2>
           <p className="text-center text-muted">Create an account to unlock exclusive features.</p>
-          <form onSubmit={handleSubmit}>
+          <form>
             <div className="mb-3">
-              <label htmlFor="petstarName" className="form-label">PetStar Name</label>
-              <input 
-                type="text" 
-                className="form-control" 
-                id="petstarName" 
-                placeholder="Enter your Name" 
-                value={petstarName}
-                onChange={(e) => setPetstarName(e.target.value)} 
-                required
-              />
+              <label htmlFor="petstarName" className="form-label">PetStar</label>
+              <input type="text" className="form-control" id="petstarName" placeholder="Enter your Name" required onChange={(e) => setPetStar(e.target.value)} />
             </div>
             <div className="mb-3">
               <label htmlFor="email" className="form-label">Email</label>
-              <input 
-                type="email" 
-                className="form-control" 
-                id="email" 
-                placeholder="Enter your Email" 
-                value={email}
-                onChange={(e) => setEmail(e.target.value)} 
-                required
-              />
+              <input type="email" className="form-control" id="email" placeholder="Enter your Email" required onChange={(e) => setEmail(e.target.value)} />
             </div>
             <div className="mb-3">
               <label htmlFor="password" className="form-label">Password</label>
-              <input 
-                type="password" 
-                className="form-control" 
-                id="password" 
-                placeholder="Enter your Password" 
-                value={password}
-                onChange={(e) => setPassword(e.target.value)} 
-                required
-              />
+              <input type="password" className="form-control" id="password" placeholder="Enter your Password" required onChange={(e) => setPassword(e.target.value)} />
             </div>
             <div className="mb-3">
               <label htmlFor="confirmPassword" className="form-label">Confirm Password</label>
-              <input 
-                type="password" 
-                className="form-control" 
-                id="confirmPassword" 
-                placeholder="Confirm your Password" 
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)} 
-                required
-              />
+              <input type="password" className="form-control" id="confirmPassword" placeholder="Confirm your Password" required onChange={(e) => setConfirmPassword(e.target.value)} />
             </div>
-            <div className="form-check mb-3">
-              <input 
-                type="checkbox" 
-                className="form-check-input" 
-                id="terms" 
-                checked={termsAccepted}
-                onChange={() => setTermsAccepted(!termsAccepted)}
-              />
-              <label className="form-check-label" htmlFor="terms">
-                I agree with <a href="/">Terms of Use</a> and <a href="/">Privacy Policy</a>
-              </label>
+            <div className="mb-3">
+              <label htmlFor="breed" className="form-label">Breed</label>
+              <input type="text" className="form-control" id="breed" placeholder="Enter your breed" required onChange={(e) => setBreed(e.target.value)} />
             </div>
+            <div className="mb-3">
+              <label htmlFor="birthDate" className="form-label">BirthDate</label>
+              <input type="date" className="form-control" id="birthDate" placeholder="Enter your birthDate" required onChange={(e) => setBirthDate(e.target.value)} />
+            </div>
+            <div className ="mb-3">
+              <label htmlFor="hobbies" className="form-label">Hobbies</label>
+              <input type="text" className="form-control" id="hobbies" placeholder="Enter your hobbies" required onChange={(e) => setHobbies(e.target.value)} />
+            </div>
+            <div className="form-group py-3 fs-3">
+              <label className="ms-3 pb-3" htmlFor="userPhoto">UserPhoto:</label>
+              {loading ? (
+                <h3>Loading...</h3>
+              ) : (
+                <img src={uploadedImage} onError={(event) => {
+                  event.currentTarget.onerror = null; // prevents loop
+                  event.currentTarget.src = "https://res.cloudinary.com/dyvut6idr/image/upload/v1726081257/SALE_qqx0ij.jpg";
+                }} alt="imagen subida" height="60" />
+              )}
+              <input type="file" id="userPhoto" name="userPhoto" className="form-control" placeholder="UserPhoto" onChange={(e) => setImage(e.target.files)} />
+            </div>
+
             <button type="submit" className="btn w-100" style={{ backgroundColor: '#FF8D4C', borderColor: '#FF8D4C' }}>Sign Up</button>
           </form>
           <div className="text-center mt-3">
@@ -134,7 +119,7 @@ function SignupPage() {
         </div>
       </div>
 
-     
+      {/* Community Section */}
       <div className="community-section mt-5 py-5" style={{ backgroundColor: '#FFAE80', borderRadius: '15px' }}>
         <div className="container">
           <h3 className="text-center mb-4">Connect with Pet Lovers</h3>
@@ -177,4 +162,4 @@ function SignupPage() {
   );
 }
 
-export default SignupPage;
+export default Signup;

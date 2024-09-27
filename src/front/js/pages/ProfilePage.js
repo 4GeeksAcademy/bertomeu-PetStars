@@ -41,7 +41,7 @@ function ProfilePage() {
   // Load posts on component mount
   useEffect(() => {
     const fetchPosts = async () => {
-      const userPosts = await actions.getPosts(); // Fetch posts from API
+      const userPosts = await actions.getSinglePosts(); // Fetch posts from API
       setPosts(userPosts);
     };
     fetchPosts();
@@ -64,7 +64,7 @@ function ProfilePage() {
         });
         setNewPost({ file: null, caption: '' });
         setShowModal(false);
-        await actions.getPosts(); // Reload posts after adding a new one
+        await actions.getSinglePosts(); // Reload posts after adding a new one
       } catch (error) {
         Swal.fire({
           icon: 'error',
@@ -122,7 +122,7 @@ function ProfilePage() {
   const handleLike = async (postId) => {
     try {
       await actions.toggleLike(postId); 
-      const updatedPosts = await actions.getPosts(); 
+      const updatedPosts = await actions.getSinglePosts(); 
       setPosts(updatedPosts);
     } catch (error) {
       Swal.fire({
@@ -139,7 +139,7 @@ function ProfilePage() {
   const handleAddComment = async (postId, commentText) => {
     try {
       await actions.addComment(postId, commentText); 3
-      const updatedPosts = await actions.getPosts(); 
+      const updatedPosts = await actions.getSinglePosts(); 
       setPosts(updatedPosts);
     } catch (error) {
       Swal.fire({

@@ -4,7 +4,7 @@ body {
     background-color: #FFAE80;
   }
   
-  .cover-photo-container {
+  /*.cover-photo-container {
     position: relative;
   }
   
@@ -12,7 +12,7 @@ body {
     width: 100%;
     height: 200px;
     object-fit: cover;
-  }
+  }*/
   
   .profile-picture-container {
     position: absolute;
@@ -70,9 +70,7 @@ body {
     font-size: 1.25rem;
   }
   
-=======
-  background-color: #fcd6bd;
-}
+
 
 .signup-page {
   background-color: #FDEAE5;
@@ -81,6 +79,7 @@ body {
   flex-direction: column;
   align-items: center;
 }
+
 
 .card {
   background-color: #FFAE80;
@@ -244,7 +243,7 @@ textarea {
 
 .container {
   position: relative;
-  z-index: 1;
+  
 }
 
 

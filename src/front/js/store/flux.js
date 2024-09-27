@@ -3,6 +3,7 @@ import Swal from 'sweetalert2'
 const getState = ({ getStore, getActions, setStore }) => {
 
 	const apiEndpoint = process.env.BACKEND_URL;
+	const token = localStorage.getItem('token');
 
 	return {
 		store: {
@@ -41,7 +42,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 
-			register: async (email, password, confirmPassword, petStar, userPhoto, breed, birthDate, hobbies) => {
+			register: async (petStar, email, password, confirmPassword, breed, birthDate, hobbies, userPhoto) => {
 				if (password !== confirmPassword) {
 					Swal.fire({
 						icon: "error",
@@ -55,7 +56,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					const response = await fetch(`${apiEndpoint}/api/register`, {
 						method: 'POST',
 						headers: { 'Content-Type': 'application/json' },
-						body: JSON.stringify({ email, password, petStar, userPhoto, breed, birthDate, hobbies })
+						body: JSON.stringify({ petStar, email, password, confirmPassword, breed, birthDate, hobbies, userPhoto})
 					});
 
 					const data = await response.json();
@@ -150,7 +151,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 			changePassword: async (oldPassword, newPassword, confirmNewPassword) => {
 
-				if (oldPassword !== newPassword) {
+				if (oldPassword === newPassword) {
 					Swal.fire({
 						icon: "error",
 						title: "New password must be different from old password",
@@ -170,20 +171,26 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 				try {
 					const response = await fetch(`${apiEndpoint}/api/changePassword`, {
-						method: 'GET',
+						method: 'PUT',
 						headers: {
 							'Content-Type': 'application/json',
 							'Authorization': `Bearer ${token}`
 						},
-						body: JSON.stringify({ password: newPassword })
+						body: JSON.stringify({ old_password: oldPassword, new_password: newPassword, confirm_new_password: confirmNewPassword })
 					});
-
+			
 					const data = await response.json();
 					if (data.msg === 'Invalid old password') {
 						throw new Error('Invalid old password');
-
+			
 					} else {
 						setStore({ user: data });
+						Swal.fire({
+							icon: "success",
+							title: "Password changed successfully",
+							showConfirmButton: false,
+							timer: 2000
+						});
 					}
 				} catch (error) {
 					console.error(error);
@@ -194,9 +201,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 						timer: 2000
 					});
 				}
-
+			
 			},
-
 			login: async (email, password) => {
 				try {
 					const response = await fetch(`${apiEndpoint}/api/login`, {
@@ -210,9 +216,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 						throw new Error('Invalid email or password');
 					} else {
 						localStorage.setItem('token', data.jwt_token);
-						setStore({ user: data.user_data });
-						
-						
+						setStore({ user: data.user_data });					
 						Swal.fire({
 							icon: "success",
 							title: "Login successful",
@@ -241,13 +245,13 @@ const getState = ({ getStore, getActions, setStore }) => {
 				});
 			},
 			getUserInfo: async () => {
-				const token = localStorage.getItem('token');
 				try {
+					
 					const response = await fetch(`${apiEndpoint}/api/user`, {
 						method: 'GET',
 						headers: {
 							'Content-Type': 'application/json',
-							'Authorization': `Bearer ${token}`
+							'Authorization': `Bearer ${localStorage.getItem("token")}`
 						}
 					});
 					if (!response.ok) {
@@ -257,9 +261,13 @@ const getState = ({ getStore, getActions, setStore }) => {
 					setStore({ user: data.user_data });
 				} catch (error) {
 					console.error(error);
-
+					Swal.fire({
+						icon: "error",
+						title: error.message,
+						showConfirmButton: false,
+						timer: 2000
+					});
 				}
-
 			},
 			modifyUserInfo: async (userPhoto, petStar, breed, birthDate, hobbies) => {
 
@@ -276,7 +284,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 						throw new Error(response.statusText);
 					}
 					const data = await response.json();
-					setStore({ user: data });
+					setStore({ user: data.user_data });
 					Swal.fire({
 						icon: "success",
 						title: "Information updated successfully",
@@ -295,9 +303,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			},
 			addPost: async (postPhoto, postText) => {
-
 				try {
-
 					const response = await fetch(`${apiEndpoint}/api/post`, {
 						method: 'POST',
 						headers: {
@@ -319,19 +325,13 @@ const getState = ({ getStore, getActions, setStore }) => {
 					});
 				} catch (error) {
 					console.error(error);
-					Swal.fire({
-						icon: "error",
-						title: error.message,
-						showConfirmButton: false,
-						timer: 2000
-					});
+					
 				}
-
 			},
-			getSinglePosts: async () => {
+			getSinglePosts: async () => {			
 
 				try {
-					const token = getStore().user.jwt_token;
+					const token = localStorage.getItem("token");
 					const response = await fetch(`${apiEndpoint}/api/singlePosts`, {
 						method: 'GET',
 						headers: {
@@ -356,7 +356,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			},
 			getAllPosts: async () => {
-
 				try {
 					const response = await fetch(`${apiEndpoint}/api/allPosts`, {
 						method: 'GET',
@@ -379,7 +378,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 						timer: 2000
 					});;
 				}
-
 			},
 			addCommentPost: async (postId, commentPostText) => {
 
@@ -412,10 +410,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 						timer: 2000
 					});
 				}
-
 			},
 			getAllCommentPost: async (postId) => {
-
 				try {
 					const response = await fetch(`${apiEndpoint}/api/commentPost/${postId}`, {
 						method: 'GET',
@@ -438,10 +434,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 						timer: 2000
 					});
 				}
-
 			},
 			addForumTopic: async (forumTopicTittle, forumTopicText) => {
-
 				try {
 					const response = await fetch(`${apiEndpoint}/api/forumTopic`, {
 						method: 'POST',
@@ -455,7 +449,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 						throw new Error(response.statusText);
 					}
 					const data = await response.json();
-					setStore({ forumTopics: [...getStore().forumTopics, data] });
+					const existingForumTopics = Array.isArray(getStore().forumTopics) ? getStore().forumTopics : [];
+                    setStore({ forumTopics: [...existingForumTopics, data] });
 					Swal.fire({
 						icon: "success",
 						title: "New forum topic created",
@@ -465,18 +460,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 				catch (error) {
 					console.error(error);
-					Swal.fire({
-						icon: "error",
-						title: error.message,
-						showConfirmButton: false,
-						timer: 2000
-					});
+					
 				}
-
-
 			},
 			getSingleForumTopics: async () => {
-
 				try {
 					const token = getStore().user.jwt_token;
 					const response = await fetch(`${apiEndpoint}/api/singleForumTopics`, {
@@ -500,33 +487,29 @@ const getState = ({ getStore, getActions, setStore }) => {
 						timer: 2000
 					});
 				}
-
 			},
 			getAllForumTopics: async () => {
-
 				try {
-					const response = await fetch(`${apiEndpoint}/api/allForumTopics`, {
-						method: 'GET',
-						headers: {
-							'Content-Type': 'application/json',
-							'Authorization': `Bearer ${token}`
-						}
-					});
-					if (!response.ok) {
-						throw new Error(response.statusText);
+				  const response = await fetch(`${apiEndpoint}/api/allForumTopics`, {
+					method: 'GET',
+					headers: {
+					  'Content-Type': 'application/json',
+					  'Authorization': `Bearer ${token}`
 					}
-					const data = await response.json();
-					setStore({ forumTopics: data });
+				  });
+				  const data = await response.json(); // Agrega esta línea para obtener la información en formato JSON
+				  console.log(data.forumTopics); // Imprime la información en formato JSON
+				  setStore({ forumTopics: data.forumTopics });
 				} catch (error) {
-					console.error(error);
-					Swal.fire({
-						icon: "error",
-						title: error.message,
-						showConfirmButton: false,
-						timer: 2000
-					});;
+				  console.error(error);
+				  Swal.fire({
+					icon: "error",
+					title: error.message,
+					showConfirmButton: false,
+					timer: 2000
+				  });;
 				}
-			},
+			  },
 			addTopicResponse: async (forumTopicId, topicResponseText) => {
 
 				try {

@@ -10,24 +10,21 @@ import { Home } from "./pages/home";
 import { Demo } from "./pages/demo";
 import { Single } from "./pages/single";
 import injectContext from "./store/appContext";
-
+import EditProfile from "./component/editProfile";
+import { General } from "./pages/general";
 import { Navbar } from "./component/navbar";
 import { Footer } from "./component/footer";
-import LoginPage from "./pages/login";
-import SignupPage from "./pages/signup";
-
+import Login from "./pages/login";
+import Signup from "./pages/signup";
 import ForumPage from './pages/forum';
 import Profiles from "./pages/profiles";
-import General from "./pages/general";
-
 
 import { Cloudinary } from "./pages/cloudinary";
 import RestorePassword from "./pages/restorePassword";
-
-
-
 import Profile from "./pages/profile";
 import  ProfilePage  from "./pages/ProfilePage";
+import UserProfile from "./pages/userProfile";
+
 
 
 
@@ -47,17 +44,16 @@ const Layout = () => {
                 <ScrollToTop>
                     <Navbar />
                     <Routes>
-                        <Route element={<Home />} path="/home" />
+                        <Route element={<Home />} path="/" />
                         <Route element={<General />} path="/general" />
-                        <Route element={<LoginPage />} path="/login" />
-
+                        <Route element={<Login />} path="/login" />
                         <Route element={<Cloudinary />} path="/cloudinary" />
                         <Route element={<RestorePassword />} path="/restorePassword/:uuid" />
-
-                        <Route element={<SignupPage />} path="/signup" />
-                        <Route element={<ProfilePage />} path="/yourprofile" />
+                        <Route element={<Signup />} path="/signup" />                        
                         <Route element={<ForumPage />} path="/forum" />
                         <Route element={<Profiles />} path="/profiles" />
+                        <Route element={<EditProfile />} path="/editProfile" />
+                        <Route element={<UserProfile />} path="/userProfile" />
                         <Route element={<Profile />} path="/profile" />
                         <Route element={<ProfilePage />} path="/profilepage" />
                         <Route path="/profiles/:username" element={<Profiles />} />
