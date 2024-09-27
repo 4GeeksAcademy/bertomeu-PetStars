@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
+//import 'bootstrap/dist/css/bootstrap.min.css';
 import { Button, Card, Container, Row, Col } from 'react-bootstrap';
 import { useParams } from 'react-router-dom'; 
 import { Context } from '../store/appContext';  

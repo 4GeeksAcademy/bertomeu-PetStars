@@ -210,7 +210,7 @@ def send_restore_password():
 
             <p>Please click on the following link to reset your password:</p>
             <p>      
-            <a href="https://upgraded-succotash-q7x4gxqqrjx3xxwr-3000.app.github.dev/restorePassword/{uuid}">Reset Password</a>
+            <a href="https://crispy-cod-wr45j477wvjf74w-3000.app.github.dev/restorePassword/{uuid}">Reset Password</a>
             </p>
             <a href="#"><img src="https://res.cloudinary.com/dyvut6idr/image/upload/v1725640842/Logo_PetStar-removebg-preview_oo91wx.png" alt="PetStar Logo" height="60"></a>
             <p>Best regards,</p>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import Swal from 'sweetalert2';
-import 'bootstrap/dist/css/bootstrap.min.css';
+//import 'bootstrap/dist/css/bootstrap.min.css';
 import { Button, Card, Container, Row, Col, Form, Modal } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';

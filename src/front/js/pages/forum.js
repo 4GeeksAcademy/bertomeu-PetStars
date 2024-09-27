@@ -82,7 +82,7 @@ const ForumPage = () => {
                       <p>{forumTopic.author.petStar}</p>
                     </Col>
                     <Col xs={10}>
-                      <h5>{forumTopic.forumTopicTittle}</h5>
+                      <h5 className="fs-2 fw-bold">{forumTopic.forumTopicTittle}</h5>
                       <p>{forumTopic.forumTopicText}</p>
                     </Col>
                   </Row>

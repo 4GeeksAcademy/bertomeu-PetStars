@@ -2,15 +2,15 @@ import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import ScrollToTop from "./component/scrollToTop";
 import { BackendURL } from "./component/backendURL";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
+//import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+//import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
 
 import { Home } from "./pages/home";
 import { Demo } from "./pages/demo";
 import { Single } from "./pages/single";
 import injectContext from "./store/appContext";
-import EditProfile from "./component/editProfile";
+
 import { General } from "./pages/general";
 import { Navbar } from "./component/navbar";
 import { Footer } from "./component/footer";
@@ -23,7 +23,7 @@ import { Cloudinary } from "./pages/cloudinary";
 import RestorePassword from "./pages/restorePassword";
 import Profile from "./pages/profile";
 import  ProfilePage  from "./pages/ProfilePage";
-import UserProfile from "./pages/userProfile";
+
 
 
 
@@ -52,8 +52,8 @@ const Layout = () => {
                         <Route element={<Signup />} path="/signup" />                        
                         <Route element={<ForumPage />} path="/forum" />
                         <Route element={<Profiles />} path="/profiles" />
-                        <Route element={<EditProfile />} path="/editProfile" />
-                        <Route element={<UserProfile />} path="/userProfile" />
+                        
+                        
                         <Route element={<Profile />} path="/profile" />
                         <Route element={<ProfilePage />} path="/profilepage" />
                         <Route path="/profiles/:username" element={<Profiles />} />

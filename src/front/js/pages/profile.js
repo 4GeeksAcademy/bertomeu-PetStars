@@ -148,7 +148,7 @@ const Profile = () => {
             <p>Email: {user.email}</p>
             <p>Breed: {user.breed}</p>
             <p><i className="bi bi-calendar"></i> BirthDate: {user.birthDate}</p>
-            <p><i className="bi bi-book"></i> Hobbies: {user.hobbies}</p>            
+            <p><i className="bi bi-book"></i> Hobbies: {user.hobbies}</p>
             <button data-bs-toggle="modal" data-bs-target="#changePasswordModal" className="btn btn-outline-primary w-100 mt-3">Change Password</button>
           </div>
         </div>

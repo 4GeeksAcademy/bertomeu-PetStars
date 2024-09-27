@@ -5,7 +5,8 @@ import { Context } from '../store/appContext';
 import { useParams } from 'react-router-dom'
 
 const RestorePassword = () => {
-  const params = useParams()
+  const params = useParams();
+  const navigate = useNavigate();
   
 
   const { actions } = useContext(Context);
