@@ -82,7 +82,7 @@ export const Navbar = () => {
           <div className="collapse navbar-collapse" id="navbarNav">
             <ul className="navbar-nav ms-auto">
               <div className="sticky-bottom d-flex justify-content-end">
-              <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
+              <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
                 <li className="nav-item">
                   <a className="btn btn-warning text-white ms-2" href="/signup">Join PetStar Now!</a>
                 </li>
